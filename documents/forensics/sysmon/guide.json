@@ -1,0 +1,419 @@
+{
+    "title": "Sysmon en windows",
+    "footer": {
+        "year": "2024",
+        "text": "Documentación forense"
+    },
+    "sections": [
+        {
+            "toolName": "¿Qué es sysmon?",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Sysmon (System Monitor) es una herramienta avanzada de la suite Sysinternals de Microsoft que proporciona monitoreo detallado de actividades del sistema en tiempo real. Sysmon captura eventos clave, como cambios en el registro, creación de procesos, conexiones de red, y manipulación de archivos, entre otros. Estos eventos se registran en los logs de eventos de Windows, permitiendo a los administradores y analistas de seguridad identificar comportamientos sospechosos, investigar incidentes y realizar análisis forenses. Es altamente configurable mediante un archivo de configuración XML que define qué eventos deben ser monitoreados y cómo.<br><br>● Procesos que se crean.<br>● Conexiones de red.<br>● Cambios en el registro.<br>● Comandos que se ejecutan.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Instalación",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Sistema operativo",
+                    "content": "Windows 10 Pro 22H2 19045.3803",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "Descarga",
+                    "content": "",
+                    "linkText": "Sysmon Windows",
+                    "linkUrl": "https://download.sysinternals.com/files/Sysmon.zip",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "",
+                    "content": "",
+                    "linkText": "Sysmon Linux",
+                    "linkUrl": "https://github.com/Sysinternals/SysmonForLinux",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Instalación",
+                    "content": "Una vez descargado y extraido en la ruta del ejcutable abrimos un terminal como administrador y ejecutamos:",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sysmon -accepteula -i",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Configuración por defecto",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_104128_2024-12-20_11-40.png",
+                    "imageCaption": "Esto instalará el sofware con una configuración por defecto",
+                    "imageAlign": "center",
+                    "imageSize": "95"
+                },
+                {
+                    "type": "link",
+                    "title": "Configuración personalizada",
+                    "content": "",
+                    "linkText": "Archivo de configuración",
+                    "linkUrl": "https://github.com/SwiftOnSecurity/sysmon-config/blob/master/sysmonconfig-export.xml",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sysmon -accepteula -i c:\\ruta\\config.xml - Si es la primera instalación<br><br>sysmon -c c:\\ruta\\config.xml - Si quieres asignar una configuración al software ya instalado",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_105625_2024-12-20_11-56.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Visualización de logs",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Visor de eventos ",
+                    "content": "Para ver el contenido que crea este software podemos consultar la documentación oficial de Microsoft.<br><br>Para ver los registros que crea debemos utilizar el visualizador de eventos de windows, simplemente en el inicio escribimos eventos e iniciamos el visualizador.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_105026_Peek_2024-12-20_11-49.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Archivo de configuración",
+                    "content": "En el anterior apartado veremos todos los registros que nosotros hayamos configurado en el archivo de configuración cargado en el programa.<br><br>Si abrimos el archivo xml veremos la estructura en la que este indica que patrones debe tomar para monitorizar según que procesos y crear registros sobre los mismos",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_110034_2024-12-20_12-00.png",
+                    "imageCaption": "Crea registros de los servicios de red, el svchosts para registrar los servicios creados y en ejecución...",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_110229_2024-12-20_12-02.png",
+                    "imageCaption": "Se puede añadir que registre cualquier conexión mediante Tor, ssh, proxy socks5/4, conexiónes SSH, Telnet, etc...",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Ejemplo",
+                    "content": "Como en este caso indicamos el cambio de configuración después de la instalación, esto tambien queda registrado.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_110639_2024-12-20_12-06.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "80"
+                }
+            ]
+        },
+        {
+            "toolName": "Ejemplo práctico - Cargar el registro",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "En este caso se han realizado una serie de actividades en el equipo que iremos averiguando gracias a los registros creados por sysmon.<br><br>Antes de comenzar con la visualización de los mismos debemos localizar su ubicación en el sistema de archivos y, además usaremos un software para facilitar la visualización de los mismos.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "Ubicación de registros",
+                    "content": "C:\\Windows\\System32\\winevt\\Logs\\Microsoft-Windows-Sysmon%4Operational",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "SysmonViewer",
+                    "content": "",
+                    "linkText": "SysmonTools - dentro buscamos SysmonViewer",
+                    "linkUrl": "https://github.com/nshalabi/SysmonTools",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Extraer los registros",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_122941_Peek_2024-12-20_13-29.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Importar el registro en SysmonView",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_123129_Peek_2024-12-20_13-31.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Ejemplo práctico - Analizar los resultados",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "En SysmonView tendremos a la izquierda los ejecutables que han sido registrados por sysmon.<br><br>Si seleccionamos alguno nos indicará la ruta del binario y además las sesiones que ha tenido abiertas y su rastro.<br><br>Suponiendo que vamos a investigar lo que ha pasado en este equipo por ejemplo podemos empezar con el binario del explorador de archivos windows.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_124108_Peek_2024-12-20_13-40.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Vemos varias entradas sobre un fichero llamado \"SAMFW.COM_SM-G990B\" que corresponde con el firmware de un telefono samsung.<br><br>El fichero parece ser grande porque cuenta con varios registros de creación y file stream ya que al estár el archivo descargando este se va modificando.<br><br>Poco más abajo vemos dos modificaciones en el registro, un par de creaciones de archivos más y lo que parece una ejecución de SismonView.exe ya que al ejecutar el binario se actualiza la fecha de último uso.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_125253_Peek_2024-12-20_13-52.gif",
+                    "imageCaption": "Si buscamos algunos binarios más ahora que sabemos lo del firmware samsung vemos que hay correlaciones con algunos de los binarios ejecutados",
+                    "imageAlign": "center",
+                    "imageSize": "60"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Si por ejemplo abrimos el registro de un binario llamado \"Samsung USB driver\" vemos que ha sido llamado desde el explorer.exe, se ha creado un proceso nuevo y se han creado 381 archivos y ha cambiado las fechas apertura de 594.<br><br>Si segumos el rastro parece que está creando varios archivos dll y por el nombre del ejecutable deducimos que es un driver para la comunciación entre el pc y el telefono samsung.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_125856_Peek_2024-12-20_13-54.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Si vamos al binario llamado ODIN vemos que ha sido ejecutado 3 veces desde el explorador de archivos en un corto periodo de tiempo.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_130213_Peek_2024-12-20_14-02.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ahora que sabemos todo esto podemos comprobar si realmente el usuario finalmente conectó el dispositivo al ordenador. <br><br>Para ello como sabemos que ha instalado unos drivers propietarios y que son samsung podemos ir al binario que se encarga de ejecutar los controladores en windows en modo usuario. <br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_130756_Peek_2024-12-20_14-07.gif",
+                    "imageCaption": "Aqui vemos como se cargaron varias veces lo que puede indicar las veces que se conectó el dispositivo al pc",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Conclusión",
+                    "content": "Con estos datos que no son muy extensos ya que es un entorno de pruebas, vemos que el usuario descargó el firmware de un dispositivo Samsung modelo G990B, descargó o se transfirió un archivo llamado magisk_... que se trata de algun archivo del firmware del dispositivo modificado para tener acceso root, ejecutó el software odin varias veces, lo que puede ser indicativo de algun fallo en el proceso, al igual que las veces que conectó y desconectó el dispositivo al ordenador.<br><br>Con estas pruebas mas o menos podemos deducir que se trata de un rooteo a un dispositivo movil Samsung.<br><br><br>Esto es solo una muestra ya que como hemos visto registra cada paso que realiza cada binario, de donde viene, que hace y cuando acaba.<br><br>Además no se limita a los proceos internos unicamente sino que también podemos ver las llamadas que hace fuera del equipo.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241220_131655_Peek_2024-12-20_14-16.gif",
+                    "imageCaption": "Vemos llamdas DNS ",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Aqui podemos ver como el buscador de windows por defecto al traer ciertos softwares pre instalados o esperando a serlo hace varias llamadas a lo que parecen varias api de microsoft.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        }
+    ]
+}

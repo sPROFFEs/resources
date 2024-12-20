@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sysmon en windows</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">¿Qué es sysmon?</a><a href="#section-2">Instalación</a><a href="#section-3">Visualización de logs</a><a href="#section-4">Ejemplo práctico - Cargar el registro</a><a href="#section-5">Ejemplo práctico - Analizar los resultados</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Sysmon en windows</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">¿Qué es sysmon?</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Sysmon (System Monitor) es una herramienta avanzada de la suite Sysinternals de Microsoft que proporciona monitoreo detallado de actividades del sistema en tiempo real. Sysmon captura eventos clave, como cambios en el registro, creación de procesos, conexiones de red, y manipulación de archivos, entre otros. Estos eventos se registran en los logs de eventos de Windows, permitiendo a los administradores y analistas de seguridad identificar comportamientos sospechosos, investigar incidentes y realizar análisis forenses. Es altamente configurable mediante un archivo de configuración XML que define qué eventos deben ser monitoreados y cómo.<br><br>● Procesos que se crean.<br>● Conexiones de red.<br>● Cambios en el registro.<br>● Comandos que se ejecutan.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Instalación</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Sistema operativo</h3>
+                    
+                    <p>Windows 10 Pro 22H2 19045.3803</p>
+                    
+                    
+                    
+                    <h3>Descarga</h3>
+                    
+                    
+                    <a href="https://download.sysinternals.com/files/Sysmon.zip" target="_blank">Sysmon Windows</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/Sysinternals/SysmonForLinux" target="_blank">Sysmon Linux</a>
+                    
+                    
+                    <h3>Instalación</h3>
+                    
+                    <p>Una vez descargado y extraido en la ruta del ejcutable abrimos un terminal como administrador y ejecutamos:</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sysmon -accepteula -i</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Configuración por defecto</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 95%">
+        <img src="img/20241220_104128_2024-12-20_11-40.png" 
+             alt="Esto instalará el sofware con una configuración por defecto"
+             style="width: 100%">
+        <div class="image-caption">Esto instalará el sofware con una configuración por defecto</div>
+    </div>
+    
+                    
+                    <h3>Configuración personalizada</h3>
+                    
+                    
+                    <a href="https://github.com/SwiftOnSecurity/sysmon-config/blob/master/sysmonconfig-export.xml" target="_blank">Archivo de configuración</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sysmon -accepteula -i c:\ruta\config.xml - Si es la primera instalación<br><br>sysmon -c c:\ruta\config.xml - Si quieres asignar una configuración al software ya instalado</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_105625_2024-12-20_11-56.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Visualización de logs</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Visor de eventos </h3>
+                    
+                    <p>Para ver el contenido que crea este software podemos consultar la documentación oficial de Microsoft.<br><br>Para ver los registros que crea debemos utilizar el visualizador de eventos de windows, simplemente en el inicio escribimos eventos e iniciamos el visualizador.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_105026_Peek_2024-12-20_11-49.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Archivo de configuración</h3>
+                    
+                    <p>En el anterior apartado veremos todos los registros que nosotros hayamos configurado en el archivo de configuración cargado en el programa.<br><br>Si abrimos el archivo xml veremos la estructura en la que este indica que patrones debe tomar para monitorizar según que procesos y crear registros sobre los mismos</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_110034_2024-12-20_12-00.png" 
+             alt="Crea registros de los servicios de red, el svchosts para registrar los servicios creados y en ejecución..."
+             style="width: 100%">
+        <div class="image-caption">Crea registros de los servicios de red, el svchosts para registrar los servicios creados y en ejecución...</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_110229_2024-12-20_12-02.png" 
+             alt="Se puede añadir que registre cualquier conexión mediante Tor, ssh, proxy socks5/4, conexiónes SSH, Telnet, etc..."
+             style="width: 100%">
+        <div class="image-caption">Se puede añadir que registre cualquier conexión mediante Tor, ssh, proxy socks5/4, conexiónes SSH, Telnet, etc...</div>
+    </div>
+    
+                    
+                    <h3>Ejemplo</h3>
+                    
+                    <p>Como en este caso indicamos el cambio de configuración después de la instalación, esto tambien queda registrado.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241220_110639_2024-12-20_12-06.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Ejemplo práctico - Cargar el registro</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>En este caso se han realizado una serie de actividades en el equipo que iremos averiguando gracias a los registros creados por sysmon.<br><br>Antes de comenzar con la visualización de los mismos debemos localizar su ubicación en el sistema de archivos y, además usaremos un software para facilitar la visualización de los mismos.</p>
+                    
+                    
+                    
+                    <h3>Ubicación de registros</h3>
+                    <div class="code-block"><code>C:\Windows\System32\winevt\Logs\Microsoft-Windows-Sysmon%4Operational</code></div>
+                    
+                    
+                    
+                    
+                    <h3>SysmonViewer</h3>
+                    
+                    
+                    <a href="https://github.com/nshalabi/SysmonTools" target="_blank">SysmonTools - dentro buscamos SysmonViewer</a>
+                    
+                    
+                    <h3>Extraer los registros</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_122941_Peek_2024-12-20_13-29.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Importar el registro en SysmonView</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_123129_Peek_2024-12-20_13-31.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Ejemplo práctico - Analizar los resultados</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>En SysmonView tendremos a la izquierda los ejecutables que han sido registrados por sysmon.<br><br>Si seleccionamos alguno nos indicará la ruta del binario y además las sesiones que ha tenido abiertas y su rastro.<br><br>Suponiendo que vamos a investigar lo que ha pasado en este equipo por ejemplo podemos empezar con el binario del explorador de archivos windows.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_124108_Peek_2024-12-20_13-40.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Vemos varias entradas sobre un fichero llamado "SAMFW.COM_SM-G990B" que corresponde con el firmware de un telefono samsung.<br><br>El fichero parece ser grande porque cuenta con varios registros de creación y file stream ya que al estár el archivo descargando este se va modificando.<br><br>Poco más abajo vemos dos modificaciones en el registro, un par de creaciones de archivos más y lo que parece una ejecución de SysmonView.exe ya que al ejecutar el binario se actualiza la fecha de último uso.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241220_125253_Peek_2024-12-20_13-52.gif" 
+             alt="Si buscamos algunos binarios más ahora que sabemos lo del firmware samsung vemos que hay correlaciones con algunos de los binarios ejecutados"
+             style="width: 100%">
+        <div class="image-caption">Si buscamos algunos binarios más ahora que sabemos lo del firmware samsung vemos que hay correlaciones con algunos de los binarios ejecutados</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Si por ejemplo abrimos el registro de un binario llamado "Samsung USB driver" vemos que ha sido llamado desde el explorer.exe, se ha creado un proceso nuevo y se han creado 381 archivos y ha cambiado las fechas apertura de 594.<br><br>Si segumos el rastro parece que está creando varios archivos dll y por el nombre del ejecutable deducimos que es un driver para la comunciación entre el pc y el telefono samsung.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_125856_Peek_2024-12-20_13-54.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Si vamos al binario llamado ODIN vemos que ha sido ejecutado 3 veces desde el explorador de archivos en un corto periodo de tiempo.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_130213_Peek_2024-12-20_14-02.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora que sabemos todo esto podemos comprobar si realmente el usuario finalmente conectó el dispositivo al ordenador. <br><br>Para ello como sabemos que ha instalado unos drivers propietarios y que son samsung podemos ir al binario que se encarga de ejecutar los controladores en windows en modo usuario. <br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_130756_Peek_2024-12-20_14-07.gif" 
+             alt="Aqui vemos como se cargaron varias veces lo que puede indicar las veces que se conectó el dispositivo al pc"
+             style="width: 100%">
+        <div class="image-caption">Aqui vemos como se cargaron varias veces lo que puede indicar las veces que se conectó el dispositivo al pc</div>
+    </div>
+    
+                    
+                    <h3>Conclusión</h3>
+                    
+                    <p>Con estos datos que no son muy extensos ya que es un entorno de pruebas, vemos que el usuario descargó el firmware de un dispositivo Samsung modelo G990B, descargó o se transfirió un archivo llamado magisk_... que se trata de algun archivo del firmware del dispositivo modificado para tener acceso root, ejecutó el software odin varias veces, lo que puede ser indicativo de algun fallo en el proceso, al igual que las veces que conectó y desconectó el dispositivo al ordenador.<br><br>Con estas pruebas mas o menos podemos deducir que se trata de un rooteo a un dispositivo movil Samsung.<br><br><br>Esto es solo una muestra ya que como hemos visto registra cada paso que realiza cada binario, de donde viene, que hace y cuando acaba.<br><br>Además no se limita a los proceos internos unicamente sino que también podemos ver las llamadas que hace fuera del equipo.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241220_131655_Peek_2024-12-20_14-16.gif" 
+             alt="Vemos llamdas DNS "
+             style="width: 100%">
+        <div class="image-caption">Vemos llamdas DNS </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Aqui podemos ver como el buscador de windows por defecto al traer ciertos softwares pre instalados o esperando a serlo hace varias llamadas a lo que parecen varias api de microsoft.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Documentación forense
+    </footer>
+</body>
+</html>

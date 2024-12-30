@@ -14,7 +14,13 @@ function showCertificates(certType) {
     }
     if (certType === 'google') {
         certificateImagesArray = [
-            'images/google-cloud-cybersecurity-certificate.png',   
+            'images/google-cloud-cybersecurity-certificate.png', 
+            'images/google-cloud-computing-foundations-certificate.png',
+        ];
+    }
+    if (certType === 'THM') {
+        certificateImagesArray = [
+            'images/THM-EKDTPXQSPM.png',
         ];
     }
 

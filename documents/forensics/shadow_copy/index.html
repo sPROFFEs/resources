@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Volume Shadow Copy</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1"></a><a href="#section-2">Añadir almacenamiento</a><a href="#section-3">Programar las copias</a><a href="#section-4">Crear puntos de restauración</a><a href="#section-5">Comprobar versiones</a><a href="#section-6">Crear imagen del disco con FTK </a><a href="#section-7">Shadow Copy View</a><a href="#section-8">Comprobación en línea de comandos</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Volume Shadow Copy</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"></h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Shadow Copy, también conocido como Volume Snapshot Service o VSS, es una tecnología de Microsoft Windows que permite crear copias de seguridad, ya sean manuales, automáticas o instantáneas, de archivos o volúmenes, incluso si están en uso. Funciona a través del servicio Volume Shadow Copy y requiere el sistema de archivos NTFS para generar y almacenar las instantáneas. Estas pueden realizarse tanto en volúmenes locales como externos utilizando cualquier componente de Windows compatible con esta tecnología.<br><br>Las instantáneas pueden ofrecer a los investigadores forenses acceso a archivos eliminados entre el momento en que se creó la instantánea y el inicio de la investigación, pero solo muestran versiones anteriores de los archivos. No revelan cambios realizados antes de la creación de la instantánea. <br><br>Dado que las instantáneas se generan a nivel de bloque y no de archivo, es posible que modificaciones en archivos individuales no sean suficientes para que Windows registre esos cambios en la instantánea correspondiente.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Añadir almacenamiento</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Debido a que estamos utilizando una VM vamos a crear un segundo disco de almacenamiento para poder almacenar estas imagenes sin tener problemas de almacenamiento.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_155528_2025-01-04_16-55.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Habilitar el servicio SCV</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_155819_2025-01-04_16-57.png" 
+             alt="Creamos el punto de restauración"
+             style="width: 100%">
+        <div class="image-caption">Creamos el punto de restauración</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20250104_160118_2025-01-04_16-58.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 55%">
+        <img src="img/20250104_160132_2025-01-04_16-59.png" 
+             alt="Activamos proteccion, seleccionamos la capacidad completa del disco y aplicamos los cambios"
+             style="width: 100%">
+        <div class="image-caption">Activamos proteccion, seleccionamos la capacidad completa del disco y aplicamos los cambios</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Con esto tenemos la posibilidad de ir creando puntos de restauración de forma manual pero podemos configurarlo para que se realice de forma automática.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Programar las copias</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Abrimos el programador de tareas de windows y creamos la nueva tarea para que se ejecute cuando indiquemos</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_162003_Peek_2025-01-04_17-17.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Command "Checkpoint-Computer -Description 'Punto de restauración automático' -RestorePointType MODIFY_SETTINGS"</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora podemos verificar que está activada además de poder ejecutarla de forma manual</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_162128_Peek_2025-01-04_17-19.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Crear puntos de restauración</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>En este caso voy a crear varios puntos de restauración de forma manual para que podamos ver el funcionamiento de forma más dinámica con un ejemplo.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Comprobar versiones</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Se han creado tres puntos de restauración en el equipo donde se han creado documentos, instalado programas, etc...<br><br>Ahora vamos a comprobar desde el mismo sistema si existien versiones anteriores de dichos ficheros haciendo uso del explorador de archivos </p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_164616_Peek_2025-01-04_17-46.gif" 
+             alt="Si como en este caso no vemos posibles versiones anteriores es posible que no sean cambios lo suficientemente sustanciales como para que windows nos indique que existen versiones anteriores"
+             style="width: 100%">
+        <div class="image-caption">Si como en este caso no vemos posibles versiones anteriores es posible que no sean cambios lo suficientemente sustanciales como para que windows nos indique que existen versiones anteriores</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Crear imagen del disco con FTK </h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Para poder comprobar que también podemos acceder a la información de las shadow copy en un análisis post-mortem vamos a crear una imagen del disco C en el otro disco creado antes.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_165610_Peek_2025-01-04_17-56.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_171722_Peek_2025-01-04_18-17.gif" 
+             alt="Montamos el disco donde hemos creado la imagen del disco C"
+             style="width: 100%">
+        <div class="image-caption">Montamos el disco donde hemos creado la imagen del disco C</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Shadow Copy View</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Montar la imagen del disco</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_172649_Peek_2025-01-04_18-25.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Descarga y uso de ShadowCopyView</h3>
+                    
+                    
+                    <a href="https://www.nirsoft.net/utils/shadow_copy_view.html#google_vignette" target="_blank">shadow_copy_view</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Mediante este software podremos visualizar todos los cambios que existen entre las diferentes imagenes de restauración creadas</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_173045_Peek_2025-01-04_18-30.gif" 
+             alt="En este caso solo nos interesan las del disco F que es la evidencia mientras que las del C son las creadas por el sistema. En un análisis esas no saldrían disponibles"
+             style="width: 100%">
+        <div class="image-caption">En este caso solo nos interesan las del disco F que es la evidencia mientras que las del C son las creadas por el sistema. En un análisis esas no saldrían disponibles</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora podemos comparar por ejemplo las diferencias entre los documentos del escritorio entre la imagen más antigua y la más reciente</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_173511_Peek_2025-01-04_18-33.gif" 
+             alt="La más antigua"
+             style="width: 100%">
+        <div class="image-caption">La más antigua</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_173531_Peek_2025-01-04_18-34.gif" 
+             alt="La más reciente"
+             style="width: 100%">
+        <div class="image-caption">La más reciente</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Comprobación en línea de comandos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Si queremos listar las copias creadas en el sistema podemos bien hacerlo desde la herramienta de creación dando en "Restaurar" o mediante powershell</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20250104_174029_Peek_2025-01-04_18-40.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250104_174229_Peek_2025-01-04_18-42.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2025 Documentación forense
+    </footer>
+</body>
+</html>

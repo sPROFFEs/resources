@@ -49,6 +49,10 @@ const translations = {
         "projects-anonip-tag1" : "Bash",
         "projects-anonip-tag2" : "Terminal",
         "projects-anonip-tag3" : "Network",
+        "project-DFIRSCRIPT-desc" : "A script for Digital Forensics and Incident Response (DFIR) that collects network configurations, active connections, and system data from a live Windows system. It uses built-in and third-party tools to gather information useful for forensic analysis and incident investigation.",
+        "projects-DFIRSCRIPT-tag1" : "Powershell/Batch",
+        "projects-DFIRSCRIPT-tag2" : "Terminal",
+        "projects-DFIRSCRIPT-tag3" : "Forensics",
         "contact-title": "Contact",
         "contact-text": "Let's discuss your security needs",
         "footer-rights": "All rights reserved."
@@ -103,6 +107,10 @@ const translations = {
         "projects-anonip-tag1" : "Bash",
         "projects-anonip-tag2" : "Terminal",
         "projects-anonip-tag3" : "Redes",
+        "project-DFIRSCRIPT-desc" : "Un script para Análisis Forense Digital y Respuesta a Incidentes (DFIR) que recopila configuraciones de red, conexiones activas y datos del sistema de un sistema Windows en funcionamiento. Utiliza herramientas integradas y de terceros para reunir información útil para el análisis forense y la investigación de incidentes.",
+        "projects-DFIRSCRIPT-tag1" : "Powershell/Batch",
+        "projects-DFIRSCRIPT-tag2" : "Terminal",
+        "projects-DFIRSCRIPT-tag3" : "Forense",
         "contact-title": "Contacto",
         "contact-text": "Hablemos sobre tus necesidades de seguridad",
         "footer-rights": "Todos los derechos reservados."

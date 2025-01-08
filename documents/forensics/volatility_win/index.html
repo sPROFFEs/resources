@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Recopilación y análisis de datos en caliente Windows</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">¿De qué se trata?</a><a href="#section-2">Extracción de datos automatizada</a><a href="#section-3">Volcado de memoria RAM</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Recopilación y análisis de datos en caliente Windows</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">¿De qué se trata?</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>En este caso vamos a realizar una obtención de datos en caliente, es decir mientras el equipo sigue encendido. <br><br>Estos tipos de análisis son muy delicados ya que el objetivo se trata de recolectar todos los datos posibles de la máquina en su estado actual pero, como bien sabemos estos datos están en constante cambio si esta se encuentra encendida.<br><br>En casos así podemos encontrar discos cifrados a los que si no accedemos en caliente posiblemente sea imposible o muy complejo realizarlo en un análisis post-mortem sin la clave de cifrado. <br><br>Es por eso que es importante o bien realizar la extracción de evidencias de forma lógica con el sistema arrancado (evitando lo máximo posible la modificación de cualquier parámetro o fichero del mismo) y además extraer el estado actual de la máquina; procesos, conexiones, caché, RAM, etc</p>
+                    
+                    
+                    
+                    <h3>Herramientas</h3>
+                    
+                    <p>En este tipo de análisis lo mejor es utilizar herramientas externas que no necesiten instalción o modificación de ficheros dentro de la máquina ya que evitamos modificar lo máximo posible los datos de la misma.<br><br>Con esto en mente vamos a utilizar herramientas que se pueden ejecutar desde una memoria USB o similar.<br></p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Extracción de datos automatizada</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Para este tipo de extracción vamos a utilizar comandos que ofrece el propio sistema Windows aunque ciertos datos es mejor o unicamente se pueden extraer con herramientas externas.<br><br>Podemos hacer la extracción de forma manual con cada software y comando pero existen scripts automatizados que realizan esto rápidamente y guardan los datos en archivos para su posterior análisis.<br><br>En internet existen distintos scripts e incluso puedes crear el tuyo propio como en este caso.</p>
+                    
+                    
+                    
+                    <h3>DFIR Forensic Script</h3>
+                    
+                    
+                    <a href="https://github.com/sPROFFEs/DFIR-Forensic-Script" target="_blank">Github</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Este script esta creado con varios comandos incluidos en el sistema así como algunos ejecutables de terceros y es capaz de extraer esos datos y almacenarlos en formato txt, json o csv.<br><br>En el enlace esta el repositorio para poder descargarlo y saber más sobre como funciona.</p>
+                    
+                    
+                    
+                    <h3>Ejemplo de uso</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_124534_2025-01-08_13-45.png" 
+             alt="Descargamos el repositorio y lo guardamos en un USB"
+             style="width: 100%">
+        <div class="image-caption">Descargamos el repositorio y lo guardamos en un USB</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_124718_2025-01-08_13-47.png" 
+             alt="Dentro encontramos dos scripts .bat y .ps1"
+             style="width: 100%">
+        <div class="image-caption">Dentro encontramos dos scripts .bat y .ps1</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Estos scripts ejecutan los mismos comandos en el sistema pero tienen un formato de salida diferente.<br><br>El más recomendado es el script powershell porque nos permite seleccionar json y csv de salida a diferente del batch que solo nos permite txt.<br><br>Para ejecutar ciertos comandos de ambos scripts hay que tener en cuenta que debemos tener privilegios elevados, además para poder ejecutar scripts en powershell debemos tener la política de ejecución de scripts configurada para que lo permita.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>Set-ExecutionPolicy Unrestricted</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Powershell</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_125403_Peek_2025-01-08_13-53.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Batch</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_125942_Peek_2025-01-08_13-59.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Volcado de memoria RAM</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Otro banco de datos que podemos sacar de la máquina objetivo es la memoria RAM, para extraerla existen numerosos software aunque en este caso utilizaremos FTK imager portable.<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_130400_Peek_2025-01-08_14-03.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Volatility</h3>
+                    
+                    
+                    <a href="https://github.com/volatilityfoundation/volatility" target="_blank">Github</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>En este caso vamos a utilizar la version para linux por lo que podemos instalarla o usar el binario standalone que se proporciona.<br><br>Utilizando el standalone tenemos los siguiente:</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_155718_2025-01-08_16-57.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora vamos los siguientes datos del dump de memoria.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>- Perfil del sistema operativo<br>- Listado de procesos<br>- Historial de comandos<br>- Información detallada del sistema operativo<br>- Ficheros cargados en memoria<br>- Conexiones activas</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Perfil del sistema operativo</h3>
+                    <div class="code-block"><code>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw imageinfo</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_160415_2025-01-08_17-04.png" 
+             alt="Observamos las posibles versiones del sistema operativo"
+             style="width: 100%">
+        <div class="image-caption">Observamos las posibles versiones del sistema operativo</div>
+    </div>
+    
+                    
+                    <h3>LIstado de procesos</h3>
+                    
+                    <p>Una vez identificado el perfil, usa pslist o pstree para listar los procesos:</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 pslist<br><br>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 pstree<br></code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_161611_Peek_2025-01-08_17-16.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Historial de comandos</h3>
+                    <div class="code-block"><code>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 cmdscan<br><br>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 consoles</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_162758_2025-01-08_17-27.png" 
+             alt="Es posible no encontrar cierta información ya que o no hay registro o no se almacena de forma predeterminada"
+             style="width: 100%">
+        <div class="image-caption">Es posible no encontrar cierta información ya que o no hay registro o no se almacena de forma predeterminada</div>
+    </div>
+    
+                    
+                    <h3>Información detallada del sistema operativo</h3>
+                    
+                    <p>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 kdbgscan</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_163038_2025-01-08_17-30.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Ficheros cargados en memoria</h3>
+                    <div class="code-block"><code>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 modules</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_163203_Peek_2025-01-08_17-31.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Conexiones activas</h3>
+                    <div class="code-block"><code>./volatility_2.6_lin64_standalone  -f /home/kali/Desktop/practica1.raw --profile=Win7SP1x86 netscan</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250108_163324_Peek_2025-01-08_17-33.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>*NOTA*<br><br>Si estás analizando una imagen de memoria de Linux, el procedimiento es similar, pero el perfil debe coincidir con el kernel y la distribución del sistema.</code></div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2025 Documentación forense
+    </footer>
+</body>
+</html>

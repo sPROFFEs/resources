@@ -9,9 +9,121 @@
     --color-border: rgba(255, 255, 255, 0.1);
     --font-mono: 'JetBrains Mono', monospace;
     --transition: all 0.3s ease;
+    --dropdown-bg: var(--color-bg-dark, #1a1a1a);
+    --dropdown-hover: rgba(0, 255, 157, 0.2);
+    --dropdown-shadow: rgba(0, 0, 0, 0.3);
+    --button-gradient-start: #00ff9d;
+    --button-gradient-end: #0066ff;
+    --transition-speed: 0.3s;
 }
 
-/* Estilos base */
+/* Contenedor principal */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 2rem;
+  }
+  
+  /* Botón principal */
+  .dropbtn {
+    background: linear-gradient(135deg, var(--button-gradient-start), var(--button-gradient-end));
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px var(--dropdown-shadow);
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .dropbtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 102, 255, 0.4);
+  }
+  
+  /* Contenido del dropdown */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--dropdown-bg);
+    min-width: 220px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px var(--dropdown-shadow);
+    z-index: 1000;
+  }
+  
+  /* Links dentro del dropdown */
+  .dropdown-content a {
+    color: white;
+    text-decoration: none;
+    padding: 1rem 1.25rem;
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: background-color var(--transition-speed) ease;
+    white-space: nowrap;
+  }
+  
+  .dropdown-content a:hover {
+    background: var(--dropdown-hover);
+    color: var(--button-gradient-start);
+  }
+  
+  /* Mostrar dropdown al hacer hover */
+  .dropdown:hover > .dropdown-content {
+    display: block;
+  }
+  
+  /* Estilos específicos para submenús */
+  .dropdown-content .dropdown {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+  
+  /* Posicionamiento del submenú */
+  .dropdown-content .dropdown .dropdown-content {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 1px;
+    display: none;
+  }
+  
+  /* Mostrar submenú al hacer hover */
+  .dropdown-content .dropdown:hover > .dropdown-content {
+    display: block;
+  }
+  
+  /* Flecha indicadora para submenús */
+  .dropdown-content .dropdown > a::after {
+    content: '›';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+  }
+  
+  /* Soporte táctil */
+  @media (hover: none) {
+    .dropdown-content .dropdown > a::after {
+      content: '+';
+    }
+  }
+  
+  /* Accesibilidad */
+  .dropdown-content a:focus {
+    background: var(--dropdown-hover);
+    outline: 2px solid var(--button-gradient-start);
+    outline-offset: -2px;
+  }
+
 body {
     background-color: var(--color-bg);
     color: var(--color-text);

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reto DFIR 1 - Atenea Incibe</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Recursos</a><a href="#section-2">Contexto</a><a href="#section-3">Analisis de procesos</a><a href="#section-4">Proceso TrueCrypt</a><a href="#section-5">Identificación del fichero objetivo</a><a href="#section-6">Desencriptado y acceso a los datos</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Reto DFIR 1 - Atenea Incibe</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recursos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Descarga del dump usado</h3>
+                    
+                    
+                    <a href="https://drive.google.com/file/d/1J_OfVL5IzVE44t5fergJA146wnbDSHA6/view" target="_blank">Google Drive</a>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Contexto</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>La policía ha detenido a un sujeto y tenemos como evidencia el ordenador encendido.<br>Se le ha realizado una captura de RAM y análisis de la memoria no volátil. En ella se ha<br>encontrado un extraño fichero que no saben de que puede ser.<br><br>Tenemos un fichero llamado magic_file sin extension del cual no sabemos nada, solo que parece encriptado debido a la alta entropia de los datos contenidos.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Analisis de procesos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Primero vamos a ver que procesos estaban abiertos en el momento</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250115_101916_2025-01-15_11-19.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>De la lista de procesos en la memoria, algunos pueden llamar la atención:<br><br>    MagnetRAMCapture.exe (PID 3120): Este es un software legítimo utilizado para capturar RAM, pero su presencia puede indicar que alguien realizó una captura de memoria en este sistema. Evalúa el motivo y quién pudo haberlo usado.<br><br>    TrueCrypt.exe (PID 3612): TrueCrypt es una herramienta de cifrado. Su presencia puede sugerir que hay volúmenes cifrados en el sistema, tal vez relacionados con el archivo magic_file.<br><br>    sppsvc.exe (PID 3076): Servicio relacionado con la protección de software de Windows. Aunque es legítimo, en ocasiones se aprovecha para esconder malware.<br><br>    WmiPrvSE.exe (PIDs 404 y 2948): Normalmente son legítimos, pero múltiples instancias simultáneas pueden ser sospechosas.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Proceso TrueCrypt</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Ya que nuestro fichero parece encriptado es posible pensar que se hizo mediante este software.<br><br>TrueCrypt fue un popular software de encriptación descontinuado a partir de 2015 y el proyecto Veracrypt tomó el relevo del mismo.<br><br>Por suerte para este tipo de casos ya existe un plugin en volatility que nos puede ser de utilidad con TrueCrypt</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 55%">
+        <img src="img/20250115_102236_2025-01-15_11-22.png" 
+             alt="Extrae la contraseña de encriptación cargada en el proceso de TrueCrypt si este se encontraba en ejecución al momento de la captura"
+             style="width: 100%">
+        <div class="image-caption">Extrae la contraseña de encriptación cargada en el proceso de TrueCrypt si este se encontraba en ejecución al momento de la captura</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Identificación del fichero objetivo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Ya que tenemos la posible contraseña para descifrar el contenido del fichero ahora podemos probar a desencriptar los datos haciendo uso de dos variantes:<br><br> - Usar veracrypt:<br><br>   Es posible que alguna de las primeras versiones de veracrypt contase con un modulo de compatibilidad para TrueCrypt pero en las últimas versiones esto ha sido eliminado<br><br> - Usar TrueCrypt:<br><br>   Ya que sabemos que el proceso en ejecución se trataba de TrueCrypt podemos utilizar a última versión disponible antes de su descontinuación</p>
+                    
+                    
+                    
+                    <h3>Enlace de TrueCrypt</h3>
+                    
+                    
+                    <a href="https://www.truecrypt71a.com/downloads/" target="_blank">Web Oficial</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Vamos a utilizar la versión  Linux x64 cli.<br><br>Para instalar damos permisos de ejecución al script de instalación y seleccionamos instalación completa o temporal.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Desencriptado y acceso a los datos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250115_103036_2025-01-15_11-30.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Creamos la ruta para montar el volumen y utilizamos la contraseña anteriormente extraida para visualizar el contenido.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2025 Labs & CTFs
+    </footer>
+</body>
+</html>

@@ -1,0 +1,171 @@
+{
+    "title": "Reto DFIR 1 - Atenea Incibe",
+    "footer": {
+        "year": "2025",
+        "text": "Labs & CTFs"
+    },
+    "sections": [
+        {
+            "toolName": "Recursos",
+            "content": [
+                {
+                    "type": "link",
+                    "title": "Descarga del dump usado",
+                    "content": "",
+                    "linkText": "Google Drive",
+                    "linkUrl": "https://drive.google.com/file/d/1J_OfVL5IzVE44t5fergJA146wnbDSHA6/view",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Contexto",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "La policía ha detenido a un sujeto y tenemos como evidencia el ordenador encendido.<br>Se le ha realizado una captura de RAM y análisis de la memoria no volátil. En ella se ha<br>encontrado un extraño fichero que no saben de que puede ser.<br><br>Tenemos un fichero llamado magic_file sin extension del cual no sabemos nada, solo que parece encriptado debido a la alta entropia de los datos contenidos.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Analisis de procesos",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Primero vamos a ver que procesos estaban abiertos en el momento",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_101916_2025-01-15_11-19.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "De la lista de procesos en la memoria, algunos pueden llamar la atención:<br><br>    MagnetRAMCapture.exe (PID 3120): Este es un software legítimo utilizado para capturar RAM, pero su presencia puede indicar que alguien realizó una captura de memoria en este sistema. Evalúa el motivo y quién pudo haberlo usado.<br><br>    TrueCrypt.exe (PID 3612): TrueCrypt es una herramienta de cifrado. Su presencia puede sugerir que hay volúmenes cifrados en el sistema, tal vez relacionados con el archivo magic_file.<br><br>    sppsvc.exe (PID 3076): Servicio relacionado con la protección de software de Windows. Aunque es legítimo, en ocasiones se aprovecha para esconder malware.<br><br>    WmiPrvSE.exe (PIDs 404 y 2948): Normalmente son legítimos, pero múltiples instancias simultáneas pueden ser sospechosas.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Proceso TrueCrypt",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ya que nuestro fichero parece encriptado es posible pensar que se hizo mediante este software.<br><br>TrueCrypt fue un popular software de encriptación descontinuado a partir de 2015 y el proyecto Veracrypt tomó el relevo del mismo.<br><br>Por suerte para este tipo de casos ya existe un plugin en volatility que nos puede ser de utilidad con TrueCrypt",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_102236_2025-01-15_11-22.png",
+                    "imageCaption": "Extrae la contraseña de encriptación cargada en el proceso de TrueCrypt si este se encontraba en ejecución al momento de la captura",
+                    "imageAlign": "center",
+                    "imageSize": "55"
+                }
+            ]
+        },
+        {
+            "toolName": "Identificación del fichero objetivo",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ya que tenemos la posible contraseña para descifrar el contenido del fichero ahora podemos probar a desencriptar los datos haciendo uso de dos variantes:<br><br> - Usar veracrypt:<br><br>   Es posible que alguna de las primeras versiones de veracrypt contase con un modulo de compatibilidad para TrueCrypt pero en las últimas versiones esto ha sido eliminado<br><br> - Usar TrueCrypt:<br><br>   Ya que sabemos que el proceso en ejecución se trataba de TrueCrypt podemos utilizar a última versión disponible antes de su descontinuación",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "Enlace de TrueCrypt",
+                    "content": "",
+                    "linkText": "Web Oficial",
+                    "linkUrl": "https://www.truecrypt71a.com/downloads/",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Vamos a utilizar la versión  Linux x64 cli.<br><br>Para instalar damos permisos de ejecución al script de instalación y seleccionamos instalación completa o temporal.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Desencriptado y acceso a los datos",
+            "content": [
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_103036_2025-01-15_11-30.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Creamos la ruta para montar el volumen y utilizamos la contraseña anteriormente extraida para visualizar el contenido.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        }
+    ]
+}

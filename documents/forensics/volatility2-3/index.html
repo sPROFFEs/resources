@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Volatility 2 & 3 </title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Concepto</a><a href="#section-2">Instalación</a><a href="#section-3">Recursos</a><a href="#section-4">Perfil del sistema operativo</a><a href="#section-5">Procesos en ejecución</a><a href="#section-6">Árbol de procesos</a><a href="#section-7">Registro de Windows</a><a href="#section-8">Hash de contraseñas</a><a href="#section-9">Conexiones externas</a><a href="#section-10">Estructuras FILE_OBJECT</a><a href="#section-11">Extracción de ficheros</a><a href="#section-12">Rutas de ficheros</a><a href="#section-13">Tabla MFT</a><a href="#section-14">URLs en memoria</a><a href="#section-15">Fechas de ejecución</a><a href="#section-16">Bonus</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Volatility 2 & 3 </h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Concepto</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>En esta sección vamos a realizar un ejemplo de uso medio/avanzado de la herramienta Volatility 2 y 3.<br><br>En el proceso vamos a ir obteniendo diferentes datos sobre el sistema a partir de un volcado de memoria ram.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Instalación</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Volatility 2</h3>
+                    
+                    
+                    <a href="https://github.com/volatilityfoundation/volatility" target="_blank">Github oficial de volatility 2</a>
+                    
+                    
+                    <h3>Volatility 3 </h3>
+                    
+                    
+                    <a href="https://github.com/volatilityfoundation/volatility3" target="_blank">Github oficial de volatility 3</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>pip install volatility3</code></div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recursos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://drive.google.com/file/d/1qfU9Ixqx1YqNgZFWOz548lbvK4A80md-/view?usp=sharing" target="_blank">Volcado de memoria utilizado</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>En el link anterior encontramos el volcado de memoria utilizado en esta sección.<br></p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Perfil del sistema operativo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol -f “/path/to/file” windows.info<br><br>-Vol2<br><br>vol.py -f “/path/to/file” imageinfo<br>vol.py -f “/path/to/file” kdbgscan</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_172936_2025-01-14_18-29.png" 
+             alt="Identifica el sistema como 7601.17514.amd64fre.win7sp1_rtm."
+             style="width: 100%">
+        <div class="image-caption">Identifica el sistema como 7601.17514.amd64fre.win7sp1_rtm.</div>
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_173006_2025-01-14_18-29_1.png" 
+             alt="Aqui de igual forma indica windows 7 sp1"
+             style="width: 100%">
+        <div class="image-caption">Aqui de igual forma indica windows 7 sp1</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Procesos en ejecución</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f “/path/to/file” windows.pslist<br>vol.py -f “/path/to/file” windows.psscan<br>vol.py -f “/path/to/file” windows.pstree<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> pslist<br>vol.py -f “/path/to/file” ‑‑profile <profile> psscan<br>vol.py -f “/path/to/file” ‑‑profile <profile> pstree<br>vol.py -f “/path/to/file” ‑‑profile <profile> psxview</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_173530_2025-01-14_18-35.png" 
+             alt=" "
+             style="width: 100%">
+        <div class="image-caption"> </div>
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_173737_2025-01-14_18-37.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Total de 42 procesos</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Árbol de procesos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f “/path/to/file” windows.pstree<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> pstree<br></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3 </h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_174233_2025-01-14_18-42.png" 
+             alt="(Como vemos no parsea demasiado bien el contenido)"
+             style="width: 100%">
+        <div class="image-caption">(Como vemos no parsea demasiado bien el contenido)</div>
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_174111_2025-01-14_18-41.png" 
+             alt="Por ejemplo podemos ver con más claridad el PPID de cada uno de los procesos."
+             style="width: 100%">
+        <div class="image-caption">Por ejemplo podemos ver con más claridad el PPID de cada uno de los procesos.</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Registro de Windows</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Lista de hives</h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f “/path/to/file” windows.registry.hivescan<br>vol.py -f “/path/to/file” windows.registry.hivelist<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> hivescan<br>vol.py -f “/path/to/file” ‑‑profile <profile> hivelist<br></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_174926_2025-01-14_18-49.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_174824_2025-01-14_18-48.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>En ambos coincide que existen 12 hives en el registro</p>
+                    
+                    
+                    
+                    <h3>Claves de registro</h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f “/path/to/file” windows.registry.printkey<br>vol.py -f “/path/to/file” windows.registry.printkey ‑‑key “Software\Microsoft\Windows\CurrentVersion”<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> printkey<br>vol.py -f “/path/to/file” ‑‑profile <profile> printkey -K “Software\Microsoft\Windows\CurrentVersion”<br><br></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_175955_2025-01-14_18-59.png" 
+             alt="Por ejemplo vemos que en SYSTEM existen 9 claves incluyendo las volátiles"
+             style="width: 100%">
+        <div class="image-caption">Por ejemplo vemos que en SYSTEM existen 9 claves incluyendo las volátiles</div>
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_182452_2025-01-14_19-08.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Claves especificas</h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f “/path/to/file” windows.registry.printkey ‑‑key“Software\Microsoft\Windows\CurrentVersion”<br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> printkey -K “Software\Microsoft\Windows\CurrentVersion”</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_182705_2025-01-14_19-26.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_182831_2025-01-14_19-28.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Hash de contraseñas</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.hashdump<br><br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> hashdump</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_183705_2025-01-14_19-36.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_183748_2025-01-14_19-37.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_183849_2025-01-14_19-38.png" 
+             alt="En este caso la contraseña es sencilla"
+             style="width: 100%">
+        <div class="image-caption">En este caso la contraseña es sencilla</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-9">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Conexiones externas</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.netstat<br><br><br>- Vol2<br><br>vol.py  -f <ruta_a_la_imagen> --profile=<perfil_de_sistema> netscan</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_184327_2025-01-14_19-43.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_184547_2025-01-14_19-45.png" 
+             alt="En este caso volatility 2 es más capaz"
+             style="width: 100%">
+        <div class="image-caption">En este caso volatility 2 es más capaz</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-10">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Estructuras FILE_OBJECT</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.filescan<br><br><br>- Vol2<br><br>vol.py  -f <ruta_a_la_imagen> --profile=<perfil_de_sistema> filescan</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_185140_2025-01-14_19-51.png" 
+             alt="Extrae 3420 resultados"
+             style="width: 100%">
+        <div class="image-caption">Extrae 3420 resultados</div>
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_184947_2025-01-14_19-49.png" 
+             alt="Extrae 3423 resultados"
+             style="width: 100%">
+        <div class="image-caption">Extrae 3423 resultados</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-11">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Extracción de ficheros</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f [ImageName] -o "dump" windows.dumpfile --pid 1328 --virtaddr 0xbf0f6abe9740<br><br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> dumpfiles ‑‑dump-dir=“/path/to/dir” -p <PID><br><br></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Localizar un fichero</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_192053_2025-01-14_20-20.png" 
+             alt="Localizamos el proceso"
+             style="width: 100%">
+        <div class="image-caption">Localizamos el proceso</div>
+    </div>
+    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_192211_2025-01-14_20-22.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_192739_2025-01-14_20-27.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-12">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Rutas de ficheros</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f “/path/to/file” windows.filescan<br><br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> filescan<br><br></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_193320_2025-01-14_20-33.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_193208_2025-01-14_20-31.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-13">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Tabla MFT</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.mftscan.MFTScan<br><br>- Vol2<br><br>vol.py -f <ruta_a_la_imagen> --profile=<perfil_de_sistema> mftparser<br></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_195210_2025-01-14_20-52.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_193922_2025-01-14_20-38.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Aqui podemos ver las fechas de acceso, modificacion, etc de los archivos de los que tengamos interés</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-14">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">URLs en memoria</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>-Vol3<br><br>vol.py -f “/path/to/file” windows.vadyarascan --yara-rules "https://" | grep -A 5 -B 5 "Process firefox"<br><br>- Vol2<br><br>vol.py -f <imagen_memoria> --profile=<perfil> yarascan -Y "https://" | grep -A 5 -B 5 "Process firefox"</p>
+                    
+                    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20250114_220227_2025-01-14_23-02.png" 
+             alt="Podemos ver diferentes URL almacenadas en la memoria"
+             style="width: 100%">
+        <div class="image-caption">Podemos ver diferentes URL almacenadas en la memoria</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-15">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Fechas de ejecución</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>-Vol3<br><br>vol.py -f <imagen_memoria> windows.registry.printkey --key "Software\\Mozilla\\Firefox"<br><br><br>- Vol2<br><br>vol.py -f <imagen_memoria> --profile=<perfil> printkey -K "Software\\Mozilla\\Firefox"</p>
+                    
+                    
+                    
+                    <h3>Vol3</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_222508_2025-01-14_23-25.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Vol2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250114_222136_2025-01-14_23-19.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Mas o menos podemos deducir las ultimas fechas en función de las ultimas modificaciones de las llaves en el registro de windows</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-16">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Bonus</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Contexto</h3>
+                    
+                    <p>En esta sección bonus vamos a realizar un analisis más profundo sobre un proceso en concreto.<br><br>El objetivo es sencillo; anteriormente conseguimos encontrar un fichero 7z en memoria, el problema es que viene conmprimido con contraseña por lo que tenenmos dos opciones.<br><br>1- Intentar crackear el fichero<br>2- Buscar en el dump de memoria si la contraseña puede estar en algún proceso abierto<br><br>Podemos proceder de la siguiente forma:<br><br>Mientras dejamos algun software de crackeo intentar descifrar el archivo vamos a indagar en el dump.<br><br>En este apartado vamos a estar utilizando únicamente volatility 3.</p>
+                    
+                    
+                    
+                    <h3>Listar procesos</h3>
+                    <div class="code-block"><code><br>vol.py -f <imagen_memoria> windows.pslist</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250115_084259_2025-01-15_09-42.png" 
+             alt="Vemos los dos procesos que nos pueden interesar, de uno ya tenemos el 7z y ahora podemos ver que hay contenido en el proceso del notepad"
+             style="width: 100%">
+        <div class="image-caption">Vemos los dos procesos que nos pueden interesar, de uno ya tenemos el 7z y ahora podemos ver que hay contenido en el proceso del notepad</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Para este proceso existen numerosos comandos que nos pueden dar más información sobre el contenido en memoria del proceso notepad.exe </p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>vol -f dump.raw windows.memmap --pid <PID_notepad> --dump<br><br>vol -f dump.raw windows.vadinfo --pid <PID_notepad></code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Estos comandos nos proporcionarán bastante información e incluso es posible que el contenido del fichero que estuviese editando el usuario en el momento de la captura pero analizar el dump puede ser tedioso y alargarse demasiado, es por eso que existen plugins ya hechos por la comunidad para ciertas tareas y es lo que vamos a estar utilizando aquí.<br></p>
+                    
+                    
+                    
+                    <h3>Enlace al plugin</h3>
+                    
+                    
+                    <a href="https://github.com/spitfirerxf/vol3-plugins/blob/main/notepad.py" target="_blank">Github</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Este plugin lo debemos mover a la ruta donde tengamos localizado nuestro volatility.<br><br>En este caso como lo instalamos mediante pip y en linux la ruta debería ser:<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>/home/kali/.local/lib/python3.12/site-packages/volatility3/framework/plugins/windows/</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora si podemos ejecutar el plugin de la siguiente forma</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>vol.py -f dump.raw windows.notepad</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250115_085006_2025-01-15_09-49.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Aunque el contenido es algo lioso quizás la mejor manera de proceder es identificar la zona que el usuario podría estar viendo en pantalla, es decir la interfaz de usuario.<br><br>Cuando identifiquemos el posible texto que necesitamos podemos proceder a intentar descifrar el fichero obtenido anteriormente.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250115_085402_Peek_2025-01-15_09-53.gif" 
+             alt="En este caso vamos 4 ficheros porque anteriormente realizamos la extración con volatility 2 y 3 "
+             style="width: 100%">
+        <div class="image-caption">En este caso vamos 4 ficheros porque anteriormente realizamos la extración con volatility 2 y 3 </div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2025 Documentación forense
+    </footer>
+</body>
+</html>

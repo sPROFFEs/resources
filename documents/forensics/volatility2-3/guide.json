@@ -1,0 +1,826 @@
+{
+    "title": "Volatility 2 & 3 ",
+    "footer": {
+        "year": "2025",
+        "text": "Documentación forense"
+    },
+    "sections": [
+        {
+            "toolName": "Concepto",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "En esta sección vamos a realizar un ejemplo de uso medio/avanzado de la herramienta Volatility 2 y 3.<br><br>En el proceso vamos a ir obteniendo diferentes datos sobre el sistema a partir de un volcado de memoria ram.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Instalación",
+            "content": [
+                {
+                    "type": "link",
+                    "title": "Volatility 2",
+                    "content": "",
+                    "linkText": "Github oficial de volatility 2",
+                    "linkUrl": "https://github.com/volatilityfoundation/volatility",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "Volatility 3 ",
+                    "content": "",
+                    "linkText": "Github oficial de volatility 3",
+                    "linkUrl": "https://github.com/volatilityfoundation/volatility3",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "pip install volatility3",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Recursos",
+            "content": [
+                {
+                    "type": "link",
+                    "title": "",
+                    "content": "",
+                    "linkText": "Volcado de memoria utilizado",
+                    "linkUrl": "https://drive.google.com/file/d/1qfU9Ixqx1YqNgZFWOz548lbvK4A80md-/view?usp=sharing",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "En el link anterior encontramos el volcado de memoria utilizado en esta sección.<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Perfil del sistema operativo",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol -f “/path/to/file” windows.info<br><br>-Vol2<br><br>vol.py -f “/path/to/file” imageinfo<br>vol.py -f “/path/to/file” kdbgscan",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_172936_2025-01-14_18-29.png",
+                    "imageCaption": "Identifica el sistema como 7601.17514.amd64fre.win7sp1_rtm.",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_173006_2025-01-14_18-29_1.png",
+                    "imageCaption": "Aqui de igual forma indica windows 7 sp1",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Procesos en ejecución",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.pslist<br>vol.py -f “/path/to/file” windows.psscan<br>vol.py -f “/path/to/file” windows.pstree<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> pslist<br>vol.py -f “/path/to/file” ‑‑profile <profile> psscan<br>vol.py -f “/path/to/file” ‑‑profile <profile> pstree<br>vol.py -f “/path/to/file” ‑‑profile <profile> psxview",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_173530_2025-01-14_18-35.png",
+                    "imageCaption": " ",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_173737_2025-01-14_18-37.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Total de 42 procesos",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Árbol de procesos",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.pstree<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> pstree<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3 ",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_174233_2025-01-14_18-42.png",
+                    "imageCaption": "(Como vemos no parsea demasiado bien el contenido)",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_174111_2025-01-14_18-41.png",
+                    "imageCaption": "Por ejemplo podemos ver con más claridad el PPID de cada uno de los procesos.",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Registro de Windows",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "Lista de hives",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.registry.hivescan<br>vol.py -f “/path/to/file” windows.registry.hivelist<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> hivescan<br>vol.py -f “/path/to/file” ‑‑profile <profile> hivelist<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_174926_2025-01-14_18-49.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_174824_2025-01-14_18-48.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "En ambos coincide que existen 12 hives en el registro",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "Claves de registro",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.registry.printkey<br>vol.py -f “/path/to/file” windows.registry.printkey ‑‑key “Software\\Microsoft\\Windows\\CurrentVersion”<br><br>-Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> printkey<br>vol.py -f “/path/to/file” ‑‑profile <profile> printkey -K “Software\\Microsoft\\Windows\\CurrentVersion”<br><br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_175955_2025-01-14_18-59.png",
+                    "imageCaption": "Por ejemplo vemos que en SYSTEM existen 9 claves incluyendo las volátiles",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_182452_2025-01-14_19-08.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "Claves especificas",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.registry.printkey ‑‑key“Software\\Microsoft\\Windows\\CurrentVersion”<br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> printkey -K “Software\\Microsoft\\Windows\\CurrentVersion”",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_182705_2025-01-14_19-26.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_182831_2025-01-14_19-28.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Hash de contraseñas",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.hashdump<br><br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> hashdump",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_183705_2025-01-14_19-36.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_183748_2025-01-14_19-37.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_183849_2025-01-14_19-38.png",
+                    "imageCaption": "En este caso la contraseña es sencilla",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Conexiones externas",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.netstat<br><br><br>- Vol2<br><br>vol.py  -f <ruta_a_la_imagen> --profile=<perfil_de_sistema> netscan",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_184327_2025-01-14_19-43.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_184547_2025-01-14_19-45.png",
+                    "imageCaption": "En este caso volatility 2 es más capaz",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Estructuras FILE_OBJECT",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.filescan<br><br><br>- Vol2<br><br>vol.py  -f <ruta_a_la_imagen> --profile=<perfil_de_sistema> filescan",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_185140_2025-01-14_19-51.png",
+                    "imageCaption": "Extrae 3420 resultados",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_184947_2025-01-14_19-49.png",
+                    "imageCaption": "Extrae 3423 resultados",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Extracción de ficheros",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f [ImageName] -o \"dump\" windows.dumpfile --pid 1328 --virtaddr 0xbf0f6abe9740<br><br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> dumpfiles ‑‑dump-dir=“/path/to/dir” -p <PID><br><br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Localizar un fichero",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_192053_2025-01-14_20-20.png",
+                    "imageCaption": "Localizamos el proceso",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_192211_2025-01-14_20-22.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_192739_2025-01-14_20-27.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Rutas de ficheros",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.filescan<br><br><br>- Vol2<br><br>vol.py -f “/path/to/file” ‑‑profile <profile> filescan<br><br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_193320_2025-01-14_20-33.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_193208_2025-01-14_20-31.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Tabla MFT",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f <ruta_a_la_imagen> windows.mftscan.MFTScan<br><br>- Vol2<br><br>vol.py -f <ruta_a_la_imagen> --profile=<perfil_de_sistema> mftparser<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_195210_2025-01-14_20-52.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_193922_2025-01-14_20-38.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Aqui podemos ver las fechas de acceso, modificacion, etc de los archivos de los que tengamos interés",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "URLs en memoria",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f “/path/to/file” windows.vadyarascan --yara-rules \"https://\" | grep -A 5 -B 5 \"Process firefox\"<br><br>- Vol2<br><br>vol.py -f <imagen_memoria> --profile=<perfil> yarascan -Y \"https://\" | grep -A 5 -B 5 \"Process firefox\"",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_220227_2025-01-14_23-02.png",
+                    "imageCaption": "Podemos ver diferentes URL almacenadas en la memoria",
+                    "imageAlign": "center",
+                    "imageSize": "80"
+                }
+            ]
+        },
+        {
+            "toolName": "Fechas de ejecución",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "-Vol3<br><br>vol.py -f <imagen_memoria> windows.registry.printkey --key \"Software\\\\Mozilla\\\\Firefox\"<br><br><br>- Vol2<br><br>vol.py -f <imagen_memoria> --profile=<perfil> printkey -K \"Software\\\\Mozilla\\\\Firefox\"",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol3",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_222508_2025-01-14_23-25.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "Vol2",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250114_222136_2025-01-14_23-19.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Mas o menos podemos deducir las ultimas fechas en función de las ultimas modificaciones de las llaves en el registro de windows",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Bonus",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Contexto",
+                    "content": "En esta sección bonus vamos a realizar un analisis más profundo sobre un proceso en concreto.<br><br>El objetivo es sencillo; anteriormente conseguimos encontrar un fichero 7z en memoria, el problema es que viene conmprimido con contraseña por lo que tenenmos dos opciones.<br><br>1- Intentar crackear el fichero<br>2- Buscar en el dump de memoria si la contraseña puede estar en algún proceso abierto<br><br>Podemos proceder de la siguiente forma:<br><br>Mientras dejamos algun software de crackeo intentar descifrar el archivo vamos a indagar en el dump.<br><br>En este apartado vamos a estar utilizando únicamente volatility 3.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "Listar procesos",
+                    "content": "<br>vol.py -f <imagen_memoria> windows.pslist",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_084259_2025-01-15_09-42.png",
+                    "imageCaption": "Vemos los dos procesos que nos pueden interesar, de uno ya tenemos el 7z y ahora podemos ver que hay contenido en el proceso del notepad",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Para este proceso existen numerosos comandos que nos pueden dar más información sobre el contenido en memoria del proceso notepad.exe ",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "vol -f dump.raw windows.memmap --pid <PID_notepad> --dump<br><br>vol -f dump.raw windows.vadinfo --pid <PID_notepad>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Estos comandos nos proporcionarán bastante información e incluso es posible que el contenido del fichero que estuviese editando el usuario en el momento de la captura pero analizar el dump puede ser tedioso y alargarse demasiado, es por eso que existen plugins ya hechos por la comunidad para ciertas tareas y es lo que vamos a estar utilizando aquí.<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "Enlace al plugin",
+                    "content": "",
+                    "linkText": "Github",
+                    "linkUrl": "https://github.com/spitfirerxf/vol3-plugins/blob/main/notepad.py",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Este plugin lo debemos mover a la ruta donde tengamos localizado nuestro volatility.<br><br>En este caso como lo instalamos mediante pip y en linux la ruta debería ser:<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "/home/kali/.local/lib/python3.12/site-packages/volatility3/framework/plugins/windows/",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ahora si podemos ejecutar el plugin de la siguiente forma",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "vol.py -f dump.raw windows.notepad",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_085006_2025-01-15_09-49.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Aunque el contenido es algo lioso quizás la mejor manera de proceder es identificar la zona que el usuario podría estar viendo en pantalla, es decir la interfaz de usuario.<br><br>Cuando identifiquemos el posible texto que necesitamos podemos proceder a intentar descifrar el fichero obtenido anteriormente.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_085402_Peek_2025-01-15_09-53.gif",
+                    "imageCaption": "En este caso vamos 4 ficheros porque anteriormente realizamos la extración con volatility 2 y 3 ",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        }
+    ]
+}

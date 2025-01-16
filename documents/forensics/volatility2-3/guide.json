@@ -660,6 +660,149 @@
                     "imageCaption": "",
                     "imageAlign": "center",
                     "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Fechas de navegación a URLs",
+                    "content": "Si necesitamos visualizar la fecha y hora en la que se visualizó una URL podemos acceder a la base de datos sqlite que genera el navegador.<br><br>En este caso firefox genera varias bases de datos en las que almacena cookies, bookmarks, historiales, etc por lo que deberían estar en memoria ya que el proceso está en ejecución.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_214047_2025-01-16_22-40.png",
+                    "imageCaption": "Localizamos el proceso principal del navegador",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_214139_2025-01-16_22-41.png",
+                    "imageCaption": "Volcamos toda los datos del proceso. En este caso se ha usado volatility 2 pero es indiferente",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Podemos verificar que en el volcado podemos encontrar estas bases de datos gestionadas por el navegador",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_214549_2025-01-16_22-44.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ahora que sabemos que los documentos están en uso por el proceso vamos a volcar toda los datos en memoria cargados pero de forma individual",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_214711_2025-01-16_22-47.png",
+                    "imageCaption": "Esto nos va a generar muchos archivos que tendremos que filtrar ahora",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Por ejemplo podemos filtrar los archivos por tipo ya que el nombre que le asigna volatility es la dirección de memoria que ocupa y el proceso del que viene. <br><br>En este caso simplemente con un explorador de archivos organizamos por tipo de fichero y nos quedamos los sqlite.<br><br>Vamos a tener que comprobar el contenido a mano de cada uno pero lo más normal es que el fichero sqlite más grande sea el que contiene el historial, bookmarks y otros datos.<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_215021_2025-01-16_22-48.png",
+                    "imageCaption": "Le podemos cambiar el nombre para que sea más fácil de referenciar",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ahora que tenemos el documento podemos abrir la base de datos con sqlite y acceder a los datos",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_215208_2025-01-16_22-52.png",
+                    "imageCaption": "En este caso podemos la URL que vimos anteriormente mediante YARA",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "La fecha de visita es el número en la tercera columna pero no es visible. Esto es por cómo son almacenadas las fechas en sqlite pero es un cálculo sencillo.<br><br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250116_215448_2025-01-16_22-54.png",
+                    "imageCaption": "2020-06-12 14:18:23",
+                    "imageAlign": "center",
+                    "imageSize": "100"
                 }
             ]
         },

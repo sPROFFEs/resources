@@ -700,6 +700,133 @@
                     
                     
                     
+                    <h3>Fechas de navegación a URLs</h3>
+                    
+                    <p>Si necesitamos visualizar la fecha y hora en la que se visualizó una URL podemos acceder a la base de datos sqlite que genera el navegador.<br><br>En este caso firefox genera varias bases de datos en las que almacena cookies, bookmarks, historiales, etc por lo que deberían estar en memoria ya que el proceso está en ejecución.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_214047_2025-01-16_22-40.png" 
+             alt="Localizamos el proceso principal del navegador"
+             style="width: 100%">
+        <div class="image-caption">Localizamos el proceso principal del navegador</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_214139_2025-01-16_22-41.png" 
+             alt="Volcamos toda los datos del proceso. En este caso se ha usado volatility 2 pero es indiferente"
+             style="width: 100%">
+        <div class="image-caption">Volcamos toda los datos del proceso. En este caso se ha usado volatility 2 pero es indiferente</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Podemos verificar que en el volcado podemos encontrar estas bases de datos gestionadas por el navegador</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_214549_2025-01-16_22-44.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora que sabemos que los documentos están en uso por el proceso vamos a volcar toda los datos en memoria cargados pero de forma individual</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_214711_2025-01-16_22-47.png" 
+             alt="Esto nos va a generar muchos archivos que tendremos que filtrar ahora"
+             style="width: 100%">
+        <div class="image-caption">Esto nos va a generar muchos archivos que tendremos que filtrar ahora</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Por ejemplo podemos filtrar los archivos por tipo ya que el nombre que le asigna volatility es la dirección de memoria que ocupa y el proceso del que viene. <br><br>En este caso simplemente con un explorador de archivos organizamos por tipo de fichero y nos quedamos los sqlite.<br><br>Vamos a tener que comprobar el contenido a mano de cada uno pero lo más normal es que el fichero sqlite más grande sea el que contiene el historial, bookmarks y otros datos.<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_215021_2025-01-16_22-48.png" 
+             alt="Le podemos cambiar el nombre para que sea más fácil de referenciar"
+             style="width: 100%">
+        <div class="image-caption">Le podemos cambiar el nombre para que sea más fácil de referenciar</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora que tenemos el documento podemos abrir la base de datos con sqlite y acceder a los datos</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_215208_2025-01-16_22-52.png" 
+             alt="En este caso podemos la URL que vimos anteriormente mediante YARA"
+             style="width: 100%">
+        <div class="image-caption">En este caso podemos la URL que vimos anteriormente mediante YARA</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>La fecha de visita es el número en la tercera columna pero no es visible. Esto es por cómo son almacenadas las fechas en sqlite pero es un cálculo sencillo.<br><br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250116_215448_2025-01-16_22-54.png" 
+             alt="2020-06-12 14:18:23"
+             style="width: 100%">
+        <div class="image-caption">2020-06-12 14:18:23</div>
+    </div>
+    
+                    
                 </div>
             </div>
         </div>

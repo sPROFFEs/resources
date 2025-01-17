@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reto DFIR 3 - Atenea CCN</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Recursos</a><a href="#section-2">Análisis de procesos</a><a href="#section-3">Análisis de conexiones</a><a href="#section-4">Análisis de autoruns</a><a href="#section-5">Malfind</a><a href="#section-6">Análisis de conexiones en los procesos infectados</a><a href="#section-7">Analisis de CMD</a><a href="#section-8">Análisis con Yara rules</a><a href="#section-9">Conclusión</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Reto DFIR 3 - Atenea CCN</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recursos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Volcado de memoria utilizado</h3>
+                    
+                    
+                    <a href="https://drive.google.com/file/d/1jUG9Wj4sHuZUpwvqCVLOlbYcwsbxt67I/view?usp=sharing" target="_blank">Google Drive</a>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de procesos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_181641_2025-01-17_19-16.png" 
+             alt="./vol2 -f Hell.img --profile=Win7SP1x64 pstree"
+             style="width: 100%">
+        <div class="image-caption">./vol2 -f Hell.img --profile=Win7SP1x64 pstree</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Hay una cadena de anidamiento sospechosa de cmd.exe -> powershell.exe que se repite varias veces:<br>cmd.exe (2680)<br> └─ powershell.exe (700)<br>    └─ cmd.exe (1876)<br>       └─ powershell.exe (2532)<br>          └─ cmd.exe (2236)<br>             └─ powershell.exe (2696)<br>                └─ cmd.exe (2632)<br><br>Procesos sospechosos relacionados con inyección:<br><br>- inject.exe (PID 2648) con un proceso hijo inject.tmp (PID 2812)<br>- La presencia de archivos .tmp es sospechosa en este contexto<br><br>MSI_v1.0.3.exe (PID 880) lo tenemos en cuenta para el siguiente punto.<br><br>Procesos con nombres sospechosos:<br><br>- PZ.exe y PZshl.exe<br>- NM34_x86.exe que inicia wscript.exe<br>- diec.exe<br><br>Varios procesos que podrían estar relacionados con la instalación de malware:<br><br>- tsetup.exe con su archivo temporal tsetup.tmp<br>- Múltiples instancias de notepad.exe que podrían estar siendo usadas para inyección de código</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de conexiones</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_183529_2025-01-17_19-34.png" 
+             alt="./vol2 -f Hell.img --profile=Win7SP1x64 netscan"
+             style="width: 100%">
+        <div class="image-caption">./vol2 -f Hell.img --profile=Win7SP1x64 netscan</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>MSI_v1.0.3.exe (PID 880) muestra un comportamiento inusual:<br><br>- Tiene múltiples conexiones UDP en puerto 0<br>- Realiza varios intentos de conexión al puerto 80 y 8080 de 10.0.0.200<br>- Este patrón podría indicar actividad de malware o intentos de comunicación con un servidor de comando y control<br><br>Hay dos conexiones TCP CLOSED con propietarios sospechosos:<br><br>- PID 424 conectando a 152.18.134.4 (sin nombre de proceso)<br>- PID 2 conectando a 56.43.118.4 con un nombre de proceso corrupto "??y????"<br><br>Hay una conexión CLOSED desde el PID 197507 (identificado como "f?") al puerto 8080, lo cual es sospechoso por:<br><br>- El PID es inusualmente alto<br>- El nombre del proceso está corrupto/incompleto<br>- El puerto 8080 es comúnmente usado para proxies y servidores web alternativos<br><br>Hay un proceso con PID 88224 (identificado como "L?") escuchando en el puerto UDP 60092</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de autoruns</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_184222_2025-01-17_19-42.png" 
+             alt="vol -f Hell.img windows.autorun"
+             style="width: 100%">
+        <div class="image-caption">vol -f Hell.img windows.autorun</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Hay dos instancias de mctadmin.exe configuradas para ejecutarse en RunOnce para diferentes perfiles de servicio (LocalService y NetworkService). Esto podría ser sospechoso porque:<br><br>- Está configurado para ejecutarse una sola vez<br>- Afecta a múltiples perfiles de servicio<br>- No es un componente estándar de Windows<br><br>La presencia de múltiples entradas de registro en diferentes hives (SOFTWARE, NTUSER.DAT) que ejecutan programas al inicio podría indicar persistencia de software potencialmente malicioso.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Malfind</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>./vol2 -f Hell.img --profile=Win7SP1x64 malfind -D ./malfind/ <br><br>foremost *<br><br>clamscan *</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_185547_2025-01-17_19-55.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Hemos exportado los procesos que el plugin malfind encuentra para posteriormente analizarlos con el antivirus ClamAV que es opensource y gratuito.<br><br>Encontramos dos archivos .dll que parecen estar infectados con Cobalt Strike es una herramienta de post-explotación comercial comúnmente usada en ataques dirigidos.<br><br>Si en vez de volcar los datos simplemente los listamos veremos que entre los procesos infectados se encuentra en efecto el proceso MSI_v1.0.3.exe<br><br>Si lo extraemos y lo analizamos veremos el mismo tipo de infección</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_192049_2025-01-17_20-20.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>En las conexiones de red vimos que MSI_v1.0.3.exe intentaba conectarse a 10.0.0.200 en los puertos 80 y 8080<br>Estos probablemente son los intentos de conexión al servidor de comando y control</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis de conexiones en los procesos infectados</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Mediante malfind encontramos varios procesos infectados entre los que se encuentran varios svchosts.<br><br>Tras identificar el PID de cada uno hemos llegado a la conclusión de que uno de ellos fue la infección inicial, ya que como veremos ahora realiza varias conexiones para descargar software malicioso.<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20250117_192513_2025-01-17_20-24.png" 
+             alt="./vol2 -f Hell.img --profile=Win7SP1x64 yarascan -Y "http" | grep -A 17 "Owner: Process svchost.exe""
+             style="width: 100%">
+        <div class="image-caption">./vol2 -f Hell.img --profile=Win7SP1x64 yarascan -Y "http" | grep -A 17 "Owner: Process svchost.exe"</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Encontramos en la memoria del proceso svchost.exe (PID 744) lo que parece ser el origen real de la infección:<br><br>URLs de descarga del malware:<br><br>- http://update.qyule.com/setup.exe<br>- http://218.204.253.145/setup.exe<br><br>Hay referencias a "Zlob.ANA" en la memoria, lo que sugiere que podría haber una infección previa de un troyano Zlob<br><br>El malware parece mostrar un mensaje de alerta: "the computer has been infected!!"<br><br>Hay una URL sospechosa adicional: "myfirstgaysex.com" que probablemente sea parte del vector de infección inicial<br><br>El User-Agent que se está usando es "mozilla/4.0 (compatible; msie 6." lo que sugiere que está intentando parecer Internet Explorer 6<br><br><br><br>Por lo tanto, parece que:<br><br>- La máquina fue inicialmente infectada por una variante del troyano Zlob<br><br>- Este troyano probablemente descargó el Cobalt Strike (MSI_v1.0.3.exe) como una infección secundaria<br><br>- Aunque el Cobalt Strike está intentando conectarse a 10.0.0.200, la infección inicial vino de estos dominios maliciosos</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Analisis de CMD</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20250117_194218_2025-01-17_20-42.png" 
+             alt="./vol2 -f Hell.img --profile=Win7SP1x64 consoles"
+             style="width: 100%">
+        <div class="image-caption">./vol2 -f Hell.img --profile=Win7SP1x64 consoles</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Se confirma la existencia de un archivo "SHellb0t.zip" que fue descomprimido en el directorio temporal C:\Users\Baphomet\AppData\Local\Temp\Temp1_SHellb0t.zip\diec.exe<br><br>El diec.exe que vimos anteriormente en el árbol de procesos (PID 2208) proviene de este archivo zip, lo que sugiere que:<br><br>- No es el DIE-Engine legítimo, sino malware que se hace pasar por él<br>- El nombre "SHellb0t" sugiere que es algún tipo de bot o backdoor<br><br>Vemos de nuevo la cadena de procesos cmd.exe/powershell.exe que identificamos antes, pero ahora con más detalles:<br><br>cmd.exe (2680)<br> └─ powershell.exe (700)<br>    └─ cmd.exe (1876)<br>       └─ powershell.exe (2532)<br>          └─ cmd.exe (2236)<br>             └─ powershell.exe (2696)<br>                └─ cmd.exe (2632)<br><br></p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Análisis con Yara rules</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_195429_2025-01-17_20-53.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Insta11Strings<br><br>    Se encontraron múltiples coincidencias en las siguientes direcciones de memoria:<br>        0xf8a003910961<br>        0xf8a0039155b9<br>        0xf8a00391a9e9<br>        0xf8a003922631<br>    Cada coincidencia incluye un valor hexadecimal (ejemplo: 42 31 32 41 45...) que parece ser un identificador o un conjunto de datos codificados.<br><br>Ponmocup<br><br>    Dirección de memoria: 0xfa8003ff3000<br>    Bytes coincidentes: 4d 5a 90 00 03 00 00 00 04 00 08 00...<br>    Regla relacionada: Coincide con Ponmocup, un malware conocido por actividades de robo de <br>información.<br><br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p></p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-9">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Conclusión</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Tomando en cuenta todo lo analizado podemos intentar deducir que se trata de una infección por inyección de dll.<br><br>Todo lo encontrado en los autoruns, lo exportado de los procesos infectados y la interacción con procesos a nivel de kernel indican que puede ser un rootkit de control remoto e incluso pertenecer a una antigua y conocida botnet.<br><br>El hecho de encontrar múltiples DLLs infectadas sugiere que el malware está usando la técnica de "DLL injection", que es una técnica común usada por Cobalt Strike para:<br><br>- Mantener persistencia<br>- Evadir detección<br>- Ejecutar código malicioso en el contexto de otros procesos legítimos<br><br>Esto encaja con el patrón completo que hemos visto:<br><br>- La infección inicial probablemente vino por las URLs que encontramos en svchost.exe<br>- El malware se propagó usando inyección de DLLs<br>- MSI_v1.0.3.exe parece ser el payload principal de Cobalt Strike<br>- La cadena de cmd/powershell probablemente fue usada para realizar la inyección de las DLLs</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20250117_201123_Peek_2025-01-17_21-08.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Posiblemente parte de los procesos infectados hacen uso o provinen de otros procesos que hacen uso de estas dll.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2025 Labs & CTFs 
+    </footer>
+</body>
+</html>

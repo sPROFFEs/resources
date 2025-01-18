@@ -226,8 +226,8 @@ h1::after {
 
 /* Grid de tarjetas */
 .card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    display: flex;
+    flex-direction: column; /* Cambiado a columna */
     gap: 2rem;
     margin: 4rem 0;
 }

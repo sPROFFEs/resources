@@ -53,6 +53,10 @@ const translations = {
         "projects-DFIRSCRIPT-tag1" : "Powershell/Batch",
         "projects-DFIRSCRIPT-tag2" : "Terminal",
         "projects-DFIRSCRIPT-tag3" : "Forensics",
+        "projects-animedeskrice-desc" : "                            Automated desktop and terminal personalization for debian based systems.",
+        "projects-animedeskrice-tag1" : "Bash",
+        "projects-animedeskrice-tag2" : "Terminal",
+        "projects-animedeskrice-tag3" : "Desktop Enviroment",
         "contact-title": "Contact",
         "contact-text": "Let's discuss your security needs",
         "footer-rights": "All rights reserved."
@@ -111,6 +115,10 @@ const translations = {
         "projects-DFIRSCRIPT-tag1" : "Powershell/Batch",
         "projects-DFIRSCRIPT-tag2" : "Terminal",
         "projects-DFIRSCRIPT-tag3" : "Forense",
+        "projects-animedeskrice-desc" : "                            Automatización para personalizar terminal y entornos de escritorio para sistemas basados en debian.",
+        "projects-animedeskrice-tag1" : "Bash",
+        "projects-animedeskrice-tag2" : "Terminal",
+        "projects-animedeskrice-tag3" : "Entorno de escritorio",
         "contact-title": "Contacto",
         "contact-text": "Hablemos sobre tus necesidades de seguridad",
         "footer-rights": "Todos los derechos reservados."

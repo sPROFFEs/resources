@@ -23,6 +23,11 @@ function showCertificates(certType) {
             'images/THM-EKDTPXQSPM.png',
         ];
     }
+    if (certType === 'HTB') {
+        certificateImagesArray = [
+            'images/HTB-CYBAPO2025.png',
+        ];
+    }
 
     // Show the first image
     currentImageIndex = 0;

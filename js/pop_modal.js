@@ -25,7 +25,7 @@ function showCertificates(certType) {
     }
     if (certType === 'HTB') {
         certificateImagesArray = [
-            'images/HTB-CYBAPO2025.png',
+            'images/CYBAPO2025.png',
         ];
     }
 

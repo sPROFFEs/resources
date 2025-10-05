@@ -10,8 +10,8 @@ function showCertificates(certType) {
     // Set images and URLs based on the certificate type
     if (certType === 'udemy') {
         certificateData = {
-            'images/UC-Certificate-1.jpg': 'https://www.udemy.com/certificate/your-certificate-1-url/',
-            'images/UC-Certificate-2.jpg': 'https://www.udemy.com/certificate/your-certificate-2-url/'
+            'images/UC-Certificate-1.jpg': '#',
+            'images/UC-Certificate-2.jpg': '#'
         };
     }
     if (certType === 'ine') {
@@ -21,18 +21,22 @@ function showCertificates(certType) {
     }
     if (certType === 'google') {
         certificateData = {
-            'images/google-cloud-cybersecurity-certificate.png': 'https://www.cloudskillsboost.google/public_profiles/your-profile',
-            'images/google-cloud-computing-foundations-certificate.png': 'https://www.cloudskillsboost.google/public_profiles/your-profile'
+            'images/google-cloud-cybersecurity-certificate.png': 'https://www.credly.com/badges/3059fac1-74da-4edc-98aa-0d6eca5aabb3',
+            'images/google-cloud-computing-foundations-certificate.png': 'https://www.credly.com/badges/e1dbe918-ac1b-4f94-9158-1e0a77085186',
+            'images/Secure_Google_Cloud_Network.png': 'https://www.credly.com/badges/8f6bf3d6-ad6a-4bb2-8ba7-b0d66c02dcfd',
+            'images/Load_Balancing_on_Compute_Engine.png': 'https://www.credly.com/badges/ef7da482-b726-4da2-8d99-d449d31f87a0',
+            'images/Data_for_ML_APIs.png': 'https://www.credly.com/badges/0ef711ff-1694-438c-ac4d-5685dc5b090b',
+            'images/App_Dev_Environment.png': 'https://www.credly.com/badges/d0788f9b-4949-48c2-977b-9f87aac9289a'
         };
     }
     if (certType === 'THM') {
         certificateData = {
-            'images/THM-EKDTPXQSPM.png': 'https://tryhackme.com/profile/your-profile'
+            'images/THM-EKDTPXQSPM.png': 'https://tryhackme.com/p/SdkSdk'
         };
     }
     if (certType === 'HTB') {
         certificateData = {
-            'images/CYBAPO2025.png': 'https://app.hackthebox.com/profile/your-profile'
+            'images/CYBAPO2025.png': 'https://app.hackthebox.com/profile/1792053'
         };
     }
 
